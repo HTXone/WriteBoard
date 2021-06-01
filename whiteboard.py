@@ -21,13 +21,13 @@ logging.basicConfig(level=logging.DEBUG)
 
 log = logging.getLogger(__name__)
 
-class SDLPanel(wx.Panel):
+class SDLPanel(wx.Panel):           #画板框
     def __init__(self, parent, ID, tplSize, caption, isInline):
         global pygame, level, renderer, objects, canvas
         wx.Panel.__init__(self, parent, ID, size=tplSize)
         self.Fit()
 
-        # initialize pygame-related stuff
+        # initialize pygame-related stuff   #初始化容器
         if isInline:
             os.environ['SDL_WINDOWID'] = str(self.GetHandle())
             os.environ['SDL_VIDEODRIVER'] = 'windib'
@@ -44,14 +44,14 @@ class SDLPanel(wx.Panel):
         self.viewer = Viewer(tplSize, parent)
 
     def startRendering(self):
-        # start pygame thread
+        # start pygame thread       开启线程
         thread.start_new_thread(self.viewer.mainLoop,())
 
     def __del__(self):
         self.viewer.running = False
 
 
-class Camera(object):
+class Camera(object):       #视窗类
     def __init__(self, pos, game):
         self.translate = numpy.array([-game.width / 2, -game.height / 2])
         self.pos = pos + self.translate
@@ -63,13 +63,13 @@ class Camera(object):
         self.pos += o
 
 
-class Viewer(object):
+class Viewer(object):       #画板监听器
     def __init__(self, size, app):
         self.screen = pygame.display.set_mode(size, pygame.RESIZABLE)
         self.width, self.height = size
         self.running = False
-        self.renderer = renderer.WhiteboardRenderer(self)
-        self.camera = Camera((0, 0), self)
+        self.renderer = renderer.WhiteboardRenderer(self)       #绘制类
+        self.camera = Camera((0, 0), self)                      #快照？
         self.app = app
         self.objectsById = {}
         self.userCursors = {}
@@ -78,6 +78,7 @@ class Viewer(object):
         self.activeTool = None
         pygame.mouse.set_visible(False)
         self.mouseCursors = {}
+        #鼠标样式
         self.mouseCursors["arrow"] = objects.ImageFromResource(os.path.join("img", "Arrow.png"), self, layer=1000, ppAlpha=True)
         self.mouseCursors["pen"] = objects.ImageFromResource(os.path.join("img", "Handwriting.png"), self, layer=1000, ppAlpha=True, alignment=objects.Alignment.BOTTOM_LEFT)
         self.mouseCursors["text"] = objects.ImageFromResource(os.path.join("img", "IBeam.png"), self, layer=1000, ppAlpha=True)
@@ -86,9 +87,11 @@ class Viewer(object):
         self.mouseCursor = None
         self.mouseCursorName = None
         self.haveMouseFocus = False
+        #初始化为箭头
         self.setMouseCursor("arrow")
 
     def update(self):
+        #快照和画图同时更新
         self.camera.update(self)
         self.renderer.update(self)
 
@@ -98,11 +101,11 @@ class Viewer(object):
     def mainLoop(self):
         self.running = True
         try:
-            clock = pygame.time.Clock()
+            clock = pygame.time.Clock() #计时器
             while self.running:
                 try:
                     clock.tick(60)
-                    for event in pygame.event.get():
+                    for event in pygame.event.get():        #事件监听
                         # log(event)
 
                         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -124,7 +127,7 @@ class Viewer(object):
                         elif event.type == pygame.KEYDOWN:
                             self.app.onKeyDown(event)
 
-                        elif event.type == pygame.VIDEORESIZE:
+                        elif event.type == pygame.VIDEORESIZE:  #窗口resize
                             log.debug("resized window: %s", event.size)
                             self.screen = pygame.display.set_mode(event.size, pygame.RESIZABLE)
                             self.width, self.height = event.size
@@ -151,6 +154,7 @@ class Viewer(object):
             print (v)
             traceback.print_tb(tb)
 
+    #工具选择
     def setActiveTool(self, tool):
         if self.activeTool is not None:
             self.activeTool.deactivate()
@@ -158,6 +162,7 @@ class Viewer(object):
         self.setMouseCursor(tool.mouseCursor)
         tool.activate()
 
+    #鼠标样式
     def setMouseCursor(self, cursorName):
         if cursorName not in self.mouseCursors:
             cursorName = "arrow"
@@ -167,22 +172,26 @@ class Viewer(object):
         if self.haveMouseFocus:
             self.renderer.add(self.mouseCursor)
 
+    #
     def setObjects(self, objects):
         for o in self.getObjects():
             o.kill()
         for o in objects:
             self.addObject(o)
 
+    #获取对象
     def getObjects(self):
         return self.renderer.userObjects.sprites()
 
+    #添加对象
     def addObject(self, object):
         self.objectsById[object.id] = object
         self.renderer.add(object)
 
+    #删除对象
     def deleteObjects(self, *ids):
         deletedIds = []
-        for id in ids:
+        for id in ids:      #id删除
             obj = self.objectsById.get(id)
             if obj is not None:
                 obj.kill()
@@ -190,18 +199,22 @@ class Viewer(object):
                 deletedIds.append(id)
         return deletedIds
 
+    #移动对象
     def moveObjects(self, offset, *ids):
         for id in ids:
-            obj = self.objectsById.get(id)
+            obj = self.objectsById.get(id)  #id移动
             if obj is not None:
-                obj.offset(*offset)
+                obj.offset(*offset)     #偏移
 
+    #添加远程用户
     def addUser(self, name):
+        #获取远端对象
         sprite = objects.ImageFromResource(os.path.join("img", "HandPointer.png"), self, layer=1000, ppAlpha=True)
         self.addObject(sprite)
         self.userCursors[name] = sprite
         return sprite
 
+    #删除远程用户
     def deleteUser(self, name):
         sprite = self.userCursors.get(name)
         if sprite is not None:
@@ -211,34 +224,40 @@ class Viewer(object):
         for name in self.userCursors:
             self.deleteUser(name)
 
+    #移动用户鼠标
     def moveUserCursor(self, userName, pos):
         sprite = self.userCursors.get(userName)
         if sprite is not None:
             sprite.pos = pos
 
+    #右键事件
     def onRightMouseButtonDown(self, x, y):
         self.prevMouseCursorName = self.mouseCursorName
         self.setMouseCursor("hand")
-        self.scroll = True
+        self.scroll = True  #拖动
 
+    #左键事件
     def onLeftMouseButtonDown(self, x, y):
         self.isLeftMouseButtonDown = True
         if self.activeTool is not None:
-            pos = numpy.array([x, y]) + self.camera.pos
-            createdObject = self.activeTool.startPos(pos[0], pos[1])
+            pos = numpy.array([x, y]) + self.camera.pos #定位
+            createdObject = self.activeTool.startPos(pos[0], pos[1])    #添加对象
             if createdObject is not None:
                 self.addObject(createdObject)
 
+    #右键起事件
     def onRightMouseButtonUp(self):
         self.scroll = False
         self.setMouseCursor(self.prevMouseCursorName)
 
+    #左键起事件
     def onLeftMouseButtonUp(self, x, y):
         self.isLeftMouseButtonDown = False
         pos = numpy.array([x, y]) + self.camera.pos
         if self.activeTool is not None:
             self.activeTool.end(*pos)
 
+    #鼠标移动事件
     def onMouseMove(self, x, y, dx, dy):
         pos = numpy.array([x, y]) + self.camera.pos
         self.mouseCursor.pos = pos
@@ -251,16 +270,16 @@ class Viewer(object):
 
         self.app.onCursorMoved(pos)
 
-class Tool(object):
+class Tool(object):     #工具抽象类
     def __init__(self, name, wb):
         self.name = name
-        self.wb = wb
+        self.wb = wb        #画板
         self.viewer = wb.viewer
         self.camera = wb.viewer.camera
         self.obj = None
         self.mouseCursor = "arrow"
 
-    def toolbarItem(self, parent, onActivate):
+    def toolbarItem(self, parent, onActivate):          #工具按钮对象
         btn = wx.Button(parent, label=self.name)
         btn.Bind(wx.EVT_BUTTON, lambda evt: onActivate(self), btn)
         return btn
@@ -271,121 +290,130 @@ class Tool(object):
     def deactivate(self):
         pass
 
-    def startPos(self, x, y):
+    def startPos(self, x, y):           #图像对象开始创建pos
         pass
 
-    def addPos(self, x, y):
+    def addPos(self, x, y):             #图像对象创建过程中pos
         pass
 
-    def screenPoint(self, x, y):
+    def screenPoint(self, x, y):        #
         return numpy.array([x, y]) - self.camera.pos
 
-    def end(self, x, y):
+    def end(self, x, y):                #对象描绘结束
         self.obj = None
 
-class SelectTool(Tool):
+class SelectTool(Tool):     #对象选择工具类
     def __init__(self, wb):
         Tool.__init__(self, "select", wb)
         self.noRect = pygame.Rect(0, 0, 0, 0)
 
     def reset(self):
+        #选择框底色
         self.selectionChooserRect = objects.Rectangle({"colour":(0,0,0,50), "rect":self.noRect.copy()}, self.viewer, isUserObject=False)
-        self.selectedAreaRect = objects.Rectangle({"colour":(0,255,150,50), "rect":self.noRect.copy()}, self.viewer, isUserObject=False)
+        #已选择对象底色
+        self.selectedAreaRect = objects.Rectangle({"colour":(43,111,213,50), "rect":self.noRect.copy()}, self.viewer, isUserObject=False)
+        #初始化选择对象列表
         self.selectedObjects = None
+        #将是否为选择模式改位true
         self.selectMode = True
 
-    def activate(self):
+    def activate(self):         #启动初始化
         self.reset()
 
-    def deactivate(self):
+    def deactivate(self):       #选择结束
+        #结束选择框获取
         self.selectedAreaRect.kill()
         self.selectionChooserRect.kill()
 
-    def startPos(self, x, y):
+    def startPos(self, x, y):   #开始选择框位置
         self.selectMode = not self.selectedAreaRect.absRect().contains(pygame.Rect(x, y, 1, 1))
         log.debug("selectMode: %s", self.selectMode)
+
         self.pos1 = self.screenPoint(x, y)
         self.pos2 = self.pos1
-        self.offset = numpy.array([0, 0])
-        if self.selectMode:
-            self.selectedAreaRect.kill()
-            self.selectedAreaRect.rect = self.noRect.copy()
-            self.selectionChooserRect.pos = (x, y)
-            self.selectionChooserRect.setSize(1, 1)
-            self.wb.addObject(self.selectionChooserRect)
+        self.offset = numpy.array([0, 0])   #偏移
+        if self.selectMode:                 #开始选择
+            self.selectedAreaRect.kill()    #结束上次已选择框？
+            self.selectedAreaRect.rect = self.noRect.copy() #新已选择对象框复制
+            self.selectionChooserRect.pos = (x, y)          #选择框位置
+            self.selectionChooserRect.setSize(1, 1)         #大小
+            self.wb.addObject(self.selectionChooserRect)    #白板添加选择框对象用于显示
 
-    def addPos(self, x, y):
-        self.pos2= self.screenPoint(x, y)
-        if self.selectMode:
+    def addPos(self, x, y):                 #选择过程中锚点
+        self.pos2= self.screenPoint(x, y)   #屏幕point
+        if self.selectMode:                 #选择框
             width = self.pos2[0] - self.pos1[0]
             height = self.pos2[1] - self.pos1[1]
-            self.selectionChooserRect.setSize(width, height)
-        else: # moving selection
-            offset = self.pos2 - self.pos1
-            self.offset += offset
+            self.selectionChooserRect.setSize(width, height)    #动态绘制
+        else:                               # moving selection  移动已选择对象过程
+            offset = self.pos2 - self.pos1  #计算偏移
+            self.offset[0] += int(offset[0])
+            self.offset[1] += int(offset[1])
             self.pos1 = self.pos2
-            for o in self.selectedObjects:
+            for o in self.selectedObjects:      #对象移动
                 o.offset(*offset)
-            self.selectedAreaRect.offset(*offset)
+            self.selectedAreaRect.offset(*offset)   #更新
 
-    def end(self, x, y):
+    def end(self, x, y):                    #结束
         self.processingInputs = False
-        if self.selectMode:
+        if self.selectMode:                 #结束选择过程
             width = self.pos2[0] - self.pos1[0]
             height = self.pos2[1] - self.pos1[1]
-            objs = filter(lambda o: o.rect.colliderect(pygame.Rect(self.pos1[0], self.pos1[1], width, height)), self.viewer.renderer.userObjects.sprites())
+            #抓取选择框内对象
+            objs = list(filter(lambda o: o.rect.colliderect(pygame.Rect(self.pos1[0], self.pos1[1], width, height)), self.viewer.renderer.userObjects.sprites()))
             log.debug("selected: %s", str(objs))
             self.selectedObjects = objs
-            self.selectionChooserRect.kill()
-            if len(objs) > 0:
-                r = objects.boundingRect(objs)
-                self.selectedAreaRect.pos = r.topleft
-                self.selectedAreaRect.setSize(*r.size)
-                self.wb.addObject(self.selectedAreaRect)
-        else:
+            self.selectionChooserRect.kill()    #选择框结束
+            if len(objs) > 0:                   #遍历选择对象
+                r = objects.boundingRect(objs)  #获取对象
+                self.selectedAreaRect.pos = r.topleft       #位置
+                self.selectedAreaRect.setSize(*r.size)      #大小
+                self.wb.addObject(self.selectedAreaRect)    #更新
+
+        else:                               #结束已选择对象移动过程
             self.wb.onObjectsMoved(self.offset, *[o.id for o in self.selectedObjects])
 
-class RectTool(Tool):
+class RectTool(Tool):       #矩阵工具类
     def __init__(self, wb):
         Tool.__init__(self, "rectangle", wb)
 
-    def startPos(self, x, y):
+    def startPos(self, x, y):   #开始
         self.obj = objects.Rectangle({"rect": pygame.Rect(x, y, 10, 10), "colour": self.wb.getColour()}, self.viewer)
         return self.obj
 
-    def addPos(self, x, y):
+    def addPos(self, x, y):     #添加鼠标落点画图
         if self.obj is None: return
         topLeft = numpy.array([self.obj.rect.left, self.obj.rect.top])
         pos = numpy.array([x, y]) - self.camera.pos
         dim = pos - topLeft
-        if dim[0] > 0 and dim[1] > 0:
+        if dim[0] > 0 and dim[1] > 0:       #画图
             self.obj.setSize(dim[0], dim[1])
 
-    def end(self, x, y):
+    def end(self, x, y):        #结束位置 形成矩阵对象
         if self.obj is not None: self.wb.onObjectCreationCompleted(self.obj)
         super(RectTool, self).end(x, y)
 
-class EraserTool(Tool):
+class EraserTool(Tool):     #删除对象类
     def __init__(self, wb):
         Tool.__init__(self, "eraser", wb)
-        self.mouseCursor = "delete"
+        self.mouseCursor = "delete"         #鼠标变化
 
-    def startPos(self, x, y):
+    def startPos(self, x, y):   #开始擦除
         self.erase(x, y)
 
-    def erase(self, x, y):
-        x, y = self.screenPoint(x, y)
+    def erase(self, x, y):      #擦除对象
+        x, y = self.screenPoint(x, y)                        #
         sprites = self.viewer.renderer.userObjects.sprites() # TODO
-        matches = filter(lambda o: o.rect.collidepoint((x, y)), sprites)
+        matches = list(filter(lambda o: o.rect.collidepoint((x, y)), sprites))
         #log.debug("eraser matches: %s", matches)
-        if len(matches) > 0:
-            ids = [o.id for o in matches]
-            self.wb.deleteObjects(*ids)
+        if len(matches) > 0:                                 #遍历
+            ids = [o.id for o in matches]                    #
+            self.wb.deleteObjects(*ids)                      #根据对象删除
 
     def addPos(self, x, y):
-        self.erase(x, y)
+        self.erase(x, y)                                     #删除经过的对象内容
 
-class PenTool(Tool):
+class PenTool(Tool):       #画笔对象工具
     def __init__(self, wb):
         Tool.__init__(self, "pen", wb)
         self.lineWidth = 3
@@ -426,7 +454,7 @@ class PenTool(Tool):
             self.wb.onObjectUpdated(self.obj.id, "endDrawing", ())
         super(PenTool, self).end(x, y)
 
-class ColourTool(Tool):
+class ColourTool(Tool):      #颜色选择工具
     def __init__(self, wb):
         Tool.__init__(self, "colour", wb)
 
@@ -437,7 +465,7 @@ class ColourTool(Tool):
     def getColour(self):
         return self.picker.GetColour()
 
-class TextTool(Tool):
+class TextTool(Tool):   #文本对象工具
     def __init__(self, wb):
         Tool.__init__(self, "text", wb)
         self.mouseCursor = "text"
@@ -447,8 +475,8 @@ class TextTool(Tool):
 
     def enterText(self, x, y):
         sx, sy = self.screenPoint(x, y)
-        textSprites = filter(lambda o: isinstance(o, objects.Text), self.viewer.renderer.userObjects.sprites())
-        matches = filter(lambda o: o.rect.collidepoint((sx, sy)), textSprites)
+        textSprites = list(filter(lambda o: isinstance(o, objects.Text), self.viewer.renderer.userObjects.sprites()))
+        matches = list(filter(lambda o: o.rect.collidepoint((sx, sy)), textSprites))
         isNewObject = False
         if len(matches) > 0:
             obj = matches[0]
@@ -500,7 +528,7 @@ class TextTool(Tool):
             return self.textControl.GetValue()
 
 
-class FontTool(Tool):
+class FontTool(Tool):   #字体工具
     def __init__(self, wb):
         Tool.__init__(self, "font", wb)
 
@@ -529,7 +557,7 @@ class Whiteboard(wx.Frame):
         # Menu Bar
         self.frame_menubar = wx.MenuBar()
         self.SetMenuBar(self.frame_menubar)
-        # - file Menu
+        # - file Menu           #文件操作
         self.file_menu = wx.Menu()
         self.file_menu.Append(101, "&Open", "Open contents from file")
         self.file_menu.Append(102, "&Save", "Save contents to file")
@@ -540,7 +568,7 @@ class Whiteboard(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onSave, id=102)
         self.Bind(wx.EVT_MENU, self.onExport, id=104)
         self.Bind(wx.EVT_MENU, self.onExit, id=103)
-        # - edit menu
+        # - edit menu           #编辑操作
         self.edit_menu = wx.Menu()
         self.edit_menu.Append(201, "&Paste image", "Paste an image")
         self.Bind(wx.EVT_MENU, self.onPasteImage, id=201)

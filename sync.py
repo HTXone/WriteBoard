@@ -15,37 +15,38 @@ from net import *
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
+#白板程序
 class DispatchingWhiteboard(Whiteboard):
 	def __init__(self, title, isServer, **kwargs):
-		self.isServer = isServer
-		self.lastPing = t.time()
-		self.lastCursorMoveTime = t.time()
+		self.isServer = isServer		#判断
+		self.lastPing = t.time()		#ping值
+		self.lastCursorMoveTime = t.time()	#move事件？
 		self.userName = "user " + str(t.time())
-		self.remoteUserCursorUpdateInterval = 0.1
-		Whiteboard.__init__(self, title, **kwargs)
-		self.Centre()
-		self.connId2UserName = {}
+		self.remoteUserCursorUpdateInterval = 0.1  #光标更新间隙
+		Whiteboard.__init__(self, title, **kwargs)		#白板
+		self.Centre()					#
+		self.connId2UserName = {}		#Client连接ID
 
-	def onObjectCreationCompleted(self, object):
+	def onObjectCreationCompleted(self, object):			#添加元素
 		self.dispatch(evt="addObject", args=(object.serialize(),))
 
-	def onObjectsDeleted(self, *ids):
+	def onObjectsDeleted(self, *ids):						#删除元素
 		self.dispatch(evt="deleteObjects", args=ids)
 
-	def onObjectsMoved(self, offset, *ids):
+	def onObjectsMoved(self, offset, *ids):					#移动元素
 		self.dispatch(evt="moveObjects", args=[offset] + list(ids))
 
-	def onObjectUpdated(self, objectId, operation, args):
+	def onObjectUpdated(self, objectId, operation, args):	#更新元素
 		self.dispatch(evt="updateObject", args=(objectId, operation, args))
 
-	def onCursorMoved(self, pos):
+	def onCursorMoved(self, pos):							#光标移动
 		now = t.time()
 		if now - self.lastCursorMoveTime > self.remoteUserCursorUpdateInterval:
 			#for i in range(1000):
 			self.dispatch(evt="moveUserCursor", args=(self.userName, pos,))
 			self.lastCursorMoveTime = now
 
-	def moveUserCursor(self, userName, pos):
+	def moveUserCursor(self, userName, pos):				#移动光标
 		sprite = self.viewer.userCursors.get(userName)
 		if sprite is None: return
 		sprite.animateMovement(pos, self.remoteUserCursorUpdateInterval)
@@ -56,10 +57,10 @@ class DispatchingWhiteboard(Whiteboard):
 			return s
 		return objects.deserialize(s, self.viewer)
 
-	def addObject(self, object):
+	def addObject(self, object):	#显示白板添加元素
 		super(DispatchingWhiteboard, self).addObject(self._deserialize(object))
 
-	def setObjects(self, objects, dispatch=True):
+	def setObjects(self, objects, dispatch=True):	#
 		log.debug("setObjects with %d objects", len(objects))
 		objects = map(lambda o: self._deserialize(o), objects)
 		super(DispatchingWhiteboard, self).setObjects(objects)
@@ -141,6 +142,8 @@ class DispatchingWhiteboard(Whiteboard):
 	def setDispatcher(self, dispatcher):
 		self.dispatcher = dispatcher
 
+
+#主程序开启
 if __name__=='__main__':
 	app = wx.App(False)
 

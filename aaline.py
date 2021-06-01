@@ -5,6 +5,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
+#计算线条框
 def aaline(surface, colour, pos1, pos2, lineWidth=3):
     log.debug("aaline: %s -> %s", pos1, pos2)
     if True: #pos1[0] != pos2[0] and pos1[1] != pos2[1]:
@@ -50,6 +51,6 @@ if __name__=='__main__':
         colour = (0,0,0)
         for i in range(len(l)-1):
             pos1, pos2 = l[i], l[i+1]
-            aaline(surface, colour, pos1, pos2)    
+            aaline(surface, colour, pos1, pos2)
         #pygame.draw.aaline(surface, colour, (20,10), (80,70))
         pygame.image.save(surface, "aatest%s.png" % str(l))

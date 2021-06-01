@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0c841857-30a5-4b42-b491-a1123385a73c" name="Default Changelist" comment="" />
+    <list default="true" id="0c841857-30a5-4b42-b491-a1123385a73c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aaline.py" beforeDir="false" afterPath="$PROJECT_DIR$/aaline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer.py" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sync.py" beforeDir="false" afterPath="$PROJECT_DIR$/sync.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whiteboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/whiteboard.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11,19 +18,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://D:/anaconda/Anaconda3/Lib/threading.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18282">
-              <caret line="838" selection-start-line="838" selection-end-line="838" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+            <state relative-caret-position="1166">
+              <caret line="63" column="38" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
               <folding>
                 <element signature="e#44#54#0" expanded="true" />
               </folding>
@@ -34,7 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/renderer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-279">
+            <state>
+              <caret line="6" column="4" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
               <folding>
                 <element signature="e#44#53#0" expanded="true" />
               </folding>
@@ -42,21 +41,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="34" column="54" lean-forward="true" selection-start-line="34" selection-start-column="54" selection-end-line="34" selection-end-column="54" />
+            <state relative-caret-position="638">
+              <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
               <folding>
                 <element signature="e#44#59#0" expanded="true" />
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LICENSE">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -74,7 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/aaline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="154">
+              <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
               <folding>
                 <element signature="e#44#57#0" expanded="true" />
               </folding>
@@ -85,34 +80,33 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/objects.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1958">
-              <caret line="97" column="46" selection-start-line="97" selection-start-column="46" selection-end-line="97" selection-end-column="46" />
+            <state relative-caret-position="-335">
+              <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
               <folding>
                 <element signature="e#44#55#0" expanded="true" />
+                <element signature="e#589#1703#0" />
+                <element signature="e#1822#2473#0" />
+                <element signature="e#2644#2887#0" />
+                <element signature="e#13569#14488#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/whiteboard.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4774">
-              <caret line="692" column="24" selection-start-line="692" selection-start-column="8" selection-end-line="692" selection-end-column="24" />
+            <state relative-caret-position="6815">
+              <caret line="543" column="26" selection-start-line="543" selection-start-column="6" selection-end-line="543" selection-end-column="26" />
               <folding>
                 <element signature="e#44#53#0" expanded="true" />
-                <element signature="e#393#1321#0" />
-                <element signature="e#1350#1595#0" />
-                <element signature="e#1624#8691#0" />
-                <element signature="e#8717#9406#0" />
-                <element signature="e#9436#11996#0" />
-                <element signature="e#12024#12707#0" />
-                <element signature="e#12737#13316#0" />
-                <element signature="e#13343#14844#0" />
-                <element signature="e#14874#15129#0" />
-                <element signature="e#15157#17650#0" />
-                <element signature="e#17679#18120#0" />
-                <element signature="e#20469#20680#0" />
+                <element signature="e#3190#5473#0" />
+                <element signature="e#8728#9434#0" />
+                <element signature="e#13551#15052#0" />
+                <element signature="e#15095#15350#0" />
+                <element signature="e#15388#17893#0" />
+                <element signature="e#17930#18371#0" />
+                <element signature="e#26839#26973#0" />
               </folding>
             </state>
           </provider>
@@ -121,7 +115,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
+            <state relative-caret-position="149">
               <caret line="8" selection-start-line="8" selection-end-line="8" />
             </state>
           </provider>
@@ -142,18 +136,24 @@
       <find>RESET_SURF</find>
       <find>RESET_RECT</find>
       <find>net</find>
+      <find>addpoint</find>
     </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/PYGameTest.py" />
         <option value="$PROJECT_DIR$/PYtest2.py" />
-        <option value="$PROJECT_DIR$/whiteboard.py" />
         <option value="$PROJECT_DIR$/OB.py" />
-        <option value="$PROJECT_DIR$/objects.py" />
-        <option value="$PROJECT_DIR$/sync.py" />
         <option value="$PROJECT_DIR$/net.py" />
+        <option value="$PROJECT_DIR$/sync.py" />
+        <option value="$PROJECT_DIR$/aaline.py" />
+        <option value="$PROJECT_DIR$/objects.py" />
+        <option value="$PROJECT_DIR$/renderer.py" />
+        <option value="$PROJECT_DIR$/whiteboard.py" />
       </list>
     </option>
   </component>
@@ -168,26 +168,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="wYPeboard-master" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wYPeboard-master" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wYPeboard-master" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wYPeboard-master" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
+              <item name="WriteBoard" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WriteBoard" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Server_User_model" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -203,7 +199,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.OB">
+  <component name="RunManager" selected="Python.aaline">
     <configuration name="OB" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="wYPeboard-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -288,6 +284,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="aaline" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="wYPeboard-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="D:\anaconda\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aaline.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="whiteboard" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="wYPeboard-master" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -311,6 +328,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.aaline" />
         <item itemvalue="Python.OB" />
         <item itemvalue="Python.whiteboard" />
         <item itemvalue="Python.PYtest2" />
@@ -333,14 +351,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21928665" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21928665" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26220363" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2611732" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39888424" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -379,7 +396,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/whiteboard.py</url>
-          <line>692</line>
+          <line>719</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
@@ -414,15 +431,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/anaconda/Anaconda3/Lib/threading.py">
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-396" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../anaconda/Anaconda3/Lib/threading.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18282">
           <caret line="838" selection-start-line="838" selection-end-line="838" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/sync.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1166">
+          <caret line="63" column="38" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
+          <folding>
+            <element signature="e#44#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+          <folding>
+            <element signature="e#44#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/net2.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -436,77 +475,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/aaline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="154">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
           <folding>
             <element signature="e#44#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/OB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/renderer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="6" column="4" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+          <folding>
+            <element signature="e#44#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/objects.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1958">
-          <caret line="97" column="46" selection-start-line="97" selection-start-column="46" selection-end-line="97" selection-end-column="46" />
+        <state relative-caret-position="-335">
+          <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
           <folding>
             <element signature="e#44#55#0" expanded="true" />
+            <element signature="e#589#1703#0" />
+            <element signature="e#1822#2473#0" />
+            <element signature="e#2644#2887#0" />
+            <element signature="e#13569#14488#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/whiteboard.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4774">
-          <caret line="692" column="24" selection-start-line="692" selection-start-column="8" selection-end-line="692" selection-end-column="24" />
+        <state relative-caret-position="6815">
+          <caret line="543" column="26" selection-start-line="543" selection-start-column="6" selection-end-line="543" selection-end-column="26" />
           <folding>
             <element signature="e#44#53#0" expanded="true" />
-            <element signature="e#393#1321#0" />
-            <element signature="e#1350#1595#0" />
-            <element signature="e#1624#8691#0" />
-            <element signature="e#8717#9406#0" />
-            <element signature="e#9436#11996#0" />
-            <element signature="e#12024#12707#0" />
-            <element signature="e#12737#13316#0" />
-            <element signature="e#13343#14844#0" />
-            <element signature="e#14874#15129#0" />
-            <element signature="e#15157#17650#0" />
-            <element signature="e#17679#18120#0" />
-            <element signature="e#20469#20680#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sync.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
-          <folding>
-            <element signature="e#44#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/renderer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-279">
-          <folding>
-            <element signature="e#44#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="34" column="54" lean-forward="true" selection-start-line="34" selection-start-column="54" selection-end-line="34" selection-end-column="54" />
-          <folding>
-            <element signature="e#44#59#0" expanded="true" />
+            <element signature="e#3190#5473#0" />
+            <element signature="e#8728#9434#0" />
+            <element signature="e#13551#15052#0" />
+            <element signature="e#15095#15350#0" />
+            <element signature="e#15388#17893#0" />
+            <element signature="e#17930#18371#0" />
+            <element signature="e#26839#26973#0" />
           </folding>
         </state>
       </provider>
