@@ -15,7 +15,7 @@ from net import *
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
-#白板程序
+#白板程序 继承whiteboard
 class DispatchingWhiteboard(Whiteboard):
 	def __init__(self, title, isServer, **kwargs):
 		self.isServer = isServer		#判断
@@ -78,6 +78,7 @@ class DispatchingWhiteboard(Whiteboard):
 	def dispatch(self, exclude=None, **d):
 		self.dispatcher.dispatch(d, exclude=exclude)
 
+	#网络事件
 	def handleNetworkEvent(self, d):
 		exec("self.%s(*d['args'])" % d["evt"])
 
@@ -124,7 +125,7 @@ class DispatchingWhiteboard(Whiteboard):
 			self.Close()
 
 	# client/server delegate methods
-
+	#拿包
 	def handle_PacketReceived(self, data, conn):
 		d = pickle.loads(data)
 		if type(d) == dict and "ping" in d: # ignore pings
