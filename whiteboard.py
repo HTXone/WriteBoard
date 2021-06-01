@@ -554,7 +554,7 @@ class Whiteboard(wx.Frame):
         self.pnlSDL = SDLPanel(self, -1, canvasSize, strTitle, not self.isMultiWindow)
         self.clipboard = wx.Clipboard()
 
-        # Menu Bar
+        # Menu Bar 菜单
         self.frame_menubar = wx.MenuBar()
         self.SetMenuBar(self.frame_menubar)
         # - file Menu           #文件操作
@@ -585,7 +585,7 @@ class Whiteboard(wx.Frame):
             self.frame_menubar.Append(joinedMenu, "Menu")
 
         self.viewer = self.pnlSDL.viewer
-
+        #工具初始化
         toolbar = wx.Panel(self)
         self.toolbar = toolbar
         self.colourTool = ColourTool(self)
@@ -631,9 +631,10 @@ class Whiteboard(wx.Frame):
             sizer.Add(self.pnlSDL, 1, flag=wx.EXPAND)
             self.SetSizer(sizer)
 
+    #开始画图
     def startRendering(self):
         self.pnlSDL.startRendering()
-
+    #选择工具
     def onSelectTool(self, tool):
         self.viewer.setActiveTool(tool)
         log.debug("selected tool %s" % tool.name)
@@ -647,6 +648,7 @@ class Whiteboard(wx.Frame):
     def getFontSize(self):
         return self.fontTool.getFont().GetPointSize()
 
+    #打开临时保存文件
     def onOpen(self, event):
         log.debug("selected 'open'")
         dlg = wx.FileDialog(self, "Choose a file", ".", "", "*.wyb", wx.OPEN)
@@ -659,6 +661,7 @@ class Whiteboard(wx.Frame):
             f.close()
             self.viewer.setObjects([objects.deserialize(o, self.viewer) for o in d["objects"]])
 
+    #保存临时文件
     def onSave(self, event):
         log.debug("selected 'save'")
         dlg = wx.FileDialog(self, "Choose a file", ".", "", "*.wyb", wx.SAVE)
@@ -670,6 +673,7 @@ class Whiteboard(wx.Frame):
             pickle.dump({"objects": [o.serialize() for o in self.viewer.getObjects()]}, f)
             f.close()
 
+    #导出图像？
     def onExport(self, event):
         log.debug("selected 'export'")
         dlg = wx.FileDialog(self, "Choose a file", ".", "", "*.png", wx.SAVE)
@@ -686,16 +690,19 @@ class Whiteboard(wx.Frame):
                 surface.blit(o.image, numpy.array(o.absRect().topleft) + translate)
             pygame.image.save(surface, path)
 
+    #推出
     def onExit(self, event):
         self.viewer.running = False
         sys.exit(0)
 
+    #按键事件
     def onKeyDown(self, event):
         key = (event.key, event.mod)
         tool = self.toolKeys.get(key)
         if tool is not None:
             self.onSelectTool(tool)
 
+    #导入图片
     def onPasteImage(self, event):
         bdo = wx.BitmapDataObject()
         self.clipboard.Open()
