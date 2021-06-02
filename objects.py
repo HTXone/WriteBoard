@@ -161,8 +161,8 @@ class Image(BaseObject):        #图片（保存的临时文件？）类
         if name == "image":
             format = "RGBA"
             s = pygame.image.tostring(self.image, format)
-            cs = s.encode("zlib")
-            print ("compression: %d -> %d") % (len(s), len(cs))
+            cs = s
+            print ("compression: %d -> %d" % (len(s), len(cs)))
             return (cs, self.image.get_size(), format)
         return super(Image, self)._serializeValue(name, value)
 
@@ -171,7 +171,7 @@ class Image(BaseObject):        #图片（保存的临时文件？）类
             dim = value[1:][0]
             if dim[0] == 0 or dim[1] == 0:
                 return pygame.Surface((10,10)).convert()
-            return pygame.image.frombuffer(value[0].decode("zlib"), *value[1:])
+            return pygame.image.frombuffer(value[0], *value[1:])
         return super(Image, self)._deserializeValue(name, value)
 
 class ImageFromResource(Image):                 #导入图片

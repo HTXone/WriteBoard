@@ -542,12 +542,13 @@ class FontTool(Tool):   #字体工具
         return self.picker.GetSelectedFont()
 
 class Whiteboard(wx.Frame):
-    def __init__(self, strTitle, canvasSize=(800, 600)):
-        self.isMultiWindow = platform.system() != "Windows"
+    def __init__(self, strTitle, canvasSize=(1000, 800)):
+        self.isMultiWindow = (platform.system() != "Windows")
+        print("window?"+str(self.isMultiWindow))
         parent = None
         size = canvasSize if not self.isMultiWindow else (80, 200)
         if not self.isMultiWindow:
-            style = wx.DEFAULT_FRAME_STYLE #& ~wx.RESIZE_BORDER & ~wx.MAXIMIZE_BOX
+            style = wx.DEFAULT_FRAME_STYLE  #& ~wx.RESIZE_BORDER & ~wx.MAXIMIZE_BOX
         else:
             style = (wx.STAY_ON_TOP | wx.CAPTION) & ~wx.SYSTEM_MENU
         wx.Frame.__init__(self, parent, wx.ID_ANY, strTitle, size=size, style=style)
@@ -704,17 +705,23 @@ class Whiteboard(wx.Frame):
 
     #导入图片
     def onPasteImage(self, event):
-        bdo = wx.BitmapDataObject()
-        self.clipboard.Open()
-        self.clipboard.GetData(bdo)
-        self.clipboard.Close()
-        bmp = bdo.GetBitmap()
-        #print bmp.SaveFile("foo.png", wx.BITMAP_TYPE_PNG)
-        #buf = bytearray([0]*4*bmp.GetWidth()*bmp.GetHeight())
+        # bdo = wx.BitmapDataObject()
+        # self.clipboard.Open()
+        # self.clipboard.GetData(bdo)
+        # self.clipboard.Close()
+        # bmp = bdo.GetBitmap()
+        #print (bmp.SaveFile("foo.png", wx.BITMAP_TYPE_PNG))
+       # buf = bytearray([0]*4*bmp.GetWidth()*bmp.GetHeight())
         #bmp.CopyToBuffer(buf, wx.BitmapBufferFormat_RGBA)
         #image = pygame.image.frombuffer(buf, (bmp.getWidth(), bmp.getHeight()), "RBGA")
-        data = bmp.ConvertToImage().GetData()
-        image = pygame.image.fromstring(data, (bmp.GetWidth(), bmp.GetHeight()), "RGB")
+        # data = bmp.ConvertToImage().GetData()
+        # image = pygame.image.fromstring(data, (bmp.GetWidth(), bmp.GetHeight()), "RGB")
+        dlg = wx.FileDialog(self, "Open XYZ file", wildcard="XYZ files (*.*)|*.*",
+                            style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+        filename = ""
+        if dlg.ShowModal() == wx.ID_OK:
+            filename = dlg.GetPath()
+            image = pygame.image.load(r'{}'.format(filename))
         obj = objects.Image({"image": image, "rect": image.get_rect()}, self.viewer, isUserObject=True)
         self.addObject(obj)
         self.onObjectCreationCompleted(obj)
