@@ -1,7 +1,10 @@
 import pygame
 import logging
+import pickle
 
 log = logging.getLogger(__name__)
+
+
 #计算线条框
 def aaline(surface, colour, pos1, pos2, lineWidth=3):
     log.debug("aaline: %s -> %s", pos1, pos2)
@@ -37,3 +40,7 @@ def aaline(surface, colour, pos1, pos2, lineWidth=3):
 def boundingRect(objects):
     r = objects[0].absRect()
     return r.unionall([o.absRect() for o in objects[1:]])
+
+def deserialize(s, game):
+    d = pickle.loads(s)
+    return eval("%s(d, game)" % d["class"])

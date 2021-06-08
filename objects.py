@@ -12,9 +12,7 @@ import utils
 
 log = logging.getLogger(__name__)
 
-def deserialize(s, game):
-    d = pickle.loads(s)
-    return eval("%s(d, game)" % d["class"])
+
 
 class Alignment(object):
     TOP_LEFT, CENTRE, BOTTOM_LEFT = range(3)

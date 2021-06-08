@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26fcf59e-f651-4187-bc2a-849656e6f035" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Tools.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aaline.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Arrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Arrow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Delete.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Delete.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Hand.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Hand.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Handwriting.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/Handwriting.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/Shape.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/img/Shape.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whiteboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/whiteboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,14 +13,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/whiteboard.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
+            <state relative-caret-position="1254">
               <caret line="57" selection-start-line="57" selection-end-line="57" />
               <folding>
                 <element signature="e#44#53#0" expanded="true" />
-                <element signature="e#420#1245#0" />
                 <element signature="e#1285#1530#0" />
                 <element signature="e#1568#8765#0" />
                 <element signature="e#3180#5533#0" />
@@ -64,20 +54,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="802">
-              <caret line="38" column="57" selection-start-line="38" selection-start-column="57" selection-end-line="38" selection-end-column="57" />
+            <state relative-caret-position="44">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#129#1223#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -85,8 +67,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3586">
-              <caret line="192" column="6" selection-start-line="192" selection-start-column="6" selection-end-line="192" selection-end-column="6" />
+            <state relative-caret-position="425">
+              <caret line="193" column="52" selection-start-line="193" selection-start-column="52" selection-end-line="193" selection-end-column="52" />
+              <folding>
+                <element signature="e#258#2228#0" />
+                <element signature="e#2265#3731#0" />
+                <element signature="e#3777#4426#0" />
+                <element signature="e#4466#5902#0" />
+                <element signature="e#5940#6072#0" />
+                <element signature="e#6129#6297#0" />
+                <element signature="e#6363#6511#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -122,11 +113,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/objects.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="902">
-              <caret line="415" lean-forward="true" selection-start-line="415" selection-end-line="415" />
+            <state relative-caret-position="266">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
               <folding>
                 <element signature="e#44#55#0" expanded="true" />
                 <element signature="e#423#4787#0" />
@@ -162,8 +153,8 @@
       <find>mouseCursors[&quot;pen&quot;]</find>
       <find>mouseCursors</find>
       <find>cursorName</find>
-      <find>pygame.</find>
       <find>obje</find>
+      <find>pygame.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -177,10 +168,10 @@
         <option value="$PROJECT_DIR$/renderer.py" />
         <option value="$PROJECT_DIR$/GIF.py" />
         <option value="$PROJECT_DIR$/sync.py" />
-        <option value="$PROJECT_DIR$/utils.py" />
-        <option value="$PROJECT_DIR$/objects.py" />
         <option value="$PROJECT_DIR$/Tools.py" />
         <option value="$PROJECT_DIR$/whiteboard.py" />
+        <option value="$PROJECT_DIR$/objects.py" />
+        <option value="$PROJECT_DIR$/utils.py" />
       </list>
     </option>
   </component>
@@ -326,13 +317,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/aaline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="770">
@@ -343,27 +327,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="802">
-          <caret line="38" column="57" selection-start-line="38" selection-start-column="57" selection-end-line="38" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/net2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="486">
           <caret line="142" column="18" lean-forward="true" selection-start-line="142" selection-start-column="18" selection-end-line="142" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/net.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3586">
-          <caret line="192" column="6" selection-start-line="192" selection-start-column="6" selection-end-line="192" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -377,38 +344,6 @@
           <folding>
             <element signature="e#345#4311#0" />
             <element signature="e#4339#5458#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/objects.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="902">
-          <caret line="415" lean-forward="true" selection-start-line="415" selection-end-line="415" />
-          <folding>
-            <element signature="e#44#55#0" expanded="true" />
-            <element signature="e#423#4787#0" />
-            <element signature="e#4822#5483#0" />
-            <element signature="e#5516#6222#0" />
-            <element signature="e#6254#6965#0" />
-            <element signature="e#6995#8639#0" />
-            <element signature="e#8671#9810#0" />
-            <element signature="e#9848#10053#0" />
-            <element signature="e#10091#14105#0" />
-            <element signature="e#14134#15060#0" />
-            <element signature="e#15102#16302#0" />
-            <element signature="e#16327#17246#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/renderer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="25" lean-forward="true" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
-          <folding>
-            <element signature="e#44#53#0" expanded="true" />
-            <element signature="e#153#1201#0" />
           </folding>
         </state>
       </provider>
@@ -435,15 +370,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/whiteboard.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
+        <state relative-caret-position="1254">
           <caret line="57" selection-start-line="57" selection-end-line="57" />
           <folding>
             <element signature="e#44#53#0" expanded="true" />
-            <element signature="e#420#1245#0" />
             <element signature="e#1285#1530#0" />
             <element signature="e#1568#8765#0" />
             <element signature="e#3180#5533#0" />
             <element signature="e#25775#33954#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+          <folding>
+            <element signature="e#211#1548#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/net.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="193" column="52" selection-start-line="193" selection-start-column="52" selection-end-line="193" selection-end-column="52" />
+          <folding>
+            <element signature="e#258#2228#0" />
+            <element signature="e#2265#3731#0" />
+            <element signature="e#3777#4426#0" />
+            <element signature="e#4466#5902#0" />
+            <element signature="e#5940#6072#0" />
+            <element signature="e#6129#6297#0" />
+            <element signature="e#6363#6511#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/renderer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="25" lean-forward="true" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+          <folding>
+            <element signature="e#44#53#0" expanded="true" />
+            <element signature="e#153#1201#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#129#1223#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/objects.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#44#55#0" expanded="true" />
+            <element signature="e#423#4787#0" />
+            <element signature="e#4822#5483#0" />
+            <element signature="e#5516#6222#0" />
+            <element signature="e#6254#6965#0" />
+            <element signature="e#6995#8639#0" />
+            <element signature="e#8671#9810#0" />
+            <element signature="e#9848#10053#0" />
+            <element signature="e#10091#14105#0" />
+            <element signature="e#14134#15060#0" />
+            <element signature="e#15102#16302#0" />
+            <element signature="e#16327#17246#0" />
           </folding>
         </state>
       </provider>
