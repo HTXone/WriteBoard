@@ -7,10 +7,12 @@ from pygame import sprite
 #画图类
 class WhiteboardRenderer(sprite.LayeredUpdates):
     def __init__(self, game):
+        #这里传入的game就是viewer对象
         sprite.LayeredUpdates.__init__(self)
 
         self.game = game
 
+        # 将对象添加到这两个容器中就会被自动绘制出
         self.userObjects = sprite.Group()
         self.uiObjects = sprite.Group()
 

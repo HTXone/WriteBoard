@@ -19,21 +19,19 @@ class Dispatcher(asyncore.dispatcher_with_send):
         self.recvBuffer = b""
         self.__debug = False
 
-    #发送
+    # 发送
     def send(self, data):
         log.debug("sending packet; size %d" % len(data))
         if self.__debug:
             log.debug("hash: %s", hashlib.sha224(data).hexdigest())
         # NOTE: explicitly *not* calling asyncore.dispatcher_with_send.send, because it's not thread-safe
         # Instead, we just add to the output buffer, such that actual sending will take place only from one thread: the one running in asyncore.loop
-
         self.out_buffer = self.out_buffer + data + self.terminator.encode("utf-8")
 
-    #开启socket
     def createSocket(self):
         self.create_socket(socket.AF_INET6 if self.ipv6 else socket.AF_INET, socket.SOCK_STREAM)
 
-    #接受
+    # 接受
     def handle_read(self):
         d = self.recv(8192)
         if d == "": # connection closed from other end
@@ -42,9 +40,11 @@ class Dispatcher(asyncore.dispatcher_with_send):
         log.debug("recvBuffer size: %d" % len(self.recvBuffer))
         while True:
             try:
+                print(self.recvBuffer)
                 tpos = self.recvBuffer.index(self.terminator.encode("utf-8"))
-            except Exception as e:
-                print("TER!" + str(e))
+
+            except:
+                print("no terminator")
                 break
             packet = self.recvBuffer[:tpos]
             log.debug("received packet; size %d" % len(packet))
@@ -56,7 +56,7 @@ class Dispatcher(asyncore.dispatcher_with_send):
             self.handle_packet(packet)
             self.recvBuffer = self.recvBuffer[tpos+len(self.terminator):]
 
-    #处理包
+    # 处理包
     def handle_packet(self, packet):
         ''' handles a read packet '''
         log.warning('unhandled packet; size %d' % len(packet))
@@ -74,7 +74,6 @@ class SyncServer(Dispatcher):
         self.connections = []
         self.listen(5)
 
-
     def handle_accept(self):
         pair = self.accept()
         if pair is None:
@@ -85,8 +84,7 @@ class SyncServer(Dispatcher):
         # send initial data to new user
         self.delegate.handle_ClientConnected(conn)
 
-
-    #通道
+    # 通道
     def dispatch(self, d, exclude=None):
         numClients = len(self.connections) if exclude is None else len(self.connections)-1
         if type(d) == dict and "evt" in d:
@@ -97,7 +95,7 @@ class SyncServer(Dispatcher):
             if c != exclude:
                 c.dispatch(d)
 
-    #删除连接
+    # 删除连接
     def removeConnection(self, conn):
         if not conn in self.connections:
             log.error("tried to remove non-present connection")
@@ -106,29 +104,27 @@ class SyncServer(Dispatcher):
         if len(self.connections) == 0:
             self.delegate.handle_AllClientConnectionsLost()
 
-
 class DispatcherConnection(Dispatcher):
     def __init__(self, connection, server):
         Dispatcher.__init__(self, sock=connection)
         self.syncserver = server
 
-    #接包
+    # 接包
     def handle_packet(self, packet):
         log.debug("handling packet; size %d" % len(packet))
         if packet == "": # connection closed from other end
             return
         self.syncserver.delegate.handle_PacketReceived(packet, self)
 
-    #断开连接
+    # 断开连接
     def remove(self):
         log.info("client connection dropped")
         self.syncserver.removeConnection(self)
 
-    #关闭
+    # 关闭
     def handle_close(self):
         self.remove()
         self.close()
-
 
     def dispatch(self, d):
         self.send(pickle.dumps(d))
@@ -142,7 +138,6 @@ class SyncClient(Dispatcher):
         self.serverAddress = (server, port)
         self.connectedToServer = self.connectingToServer = False
         self.connectToServer()
-
 
     def connectToServer(self):
         log.info("connecting to %s..." % str(self.serverAddress))
@@ -181,7 +176,6 @@ class SyncClient(Dispatcher):
 
     def reconnect(self):
         self.connectToServer()
-
 
 #网络进程
 def spawnNetworkThread():

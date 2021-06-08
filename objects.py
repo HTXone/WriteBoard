@@ -12,7 +12,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
-def deserialize(s, game):       #解包？
+def deserialize(s, game):
     d = pickle.loads(s)
     return eval("%s(d, game)" % d["class"])
 
@@ -35,11 +35,11 @@ class BaseObject(sprite.Sprite):
         self.layer = layer
         self.id = time.time()
 
-        for member in self.persistentMembers:                   #
+        for member in self.persistentMembers:
             if member in d:
                 self.__dict__[member] = self._deserializeValue(member, d[member])
 
-        if not hasattr(self, "pos"):            #具有属性
+        if not hasattr(self, "pos"):        #具有属性
             if hasattr(self, "rect"):
                 if self.alignment == Alignment.TOP_LEFT:
                     self.pos = self.rect.topleft
@@ -54,30 +54,30 @@ class BaseObject(sprite.Sprite):
 
     class MovementAnimationThread(threading.Thread):    #运动动画线程
         def __init__(self, obj, pos, duration):
-            threading.Thread.__init__(self)             #初始化
+            threading.Thread.__init__(self) #初始化
             self.obj = obj
             self.pos = pos
             self.duration = duration
             self.animating = True
 
-        def run(self):                                  #
+        def run(self):
             startPos = self.obj.pos
             translation = numpy.array(self.pos) - startPos  #偏移
-            startTime = time.time()         #计时器
-            while self.animating:           #启动动画
-                passed = min(time.time() - startTime, self.duration)    #计算帧
-                self.obj.pos = startPos + (passed / self.duration) * translation    #显示
+            startTime = time.time()     #计时器
+            while self.animating:       #启动动画
+                passed = min(time.time() - startTime, self.duration)
+                self.obj.pos = startPos + (passed / self.duration) * translation
                 if passed == self.duration:
                     break
                 time.sleep(0.010)
 
-    def animateMovement(self, pos, duration):            #开启动画线程
+    def animateMovement(self, pos, duration):       #开启动画线程
         if hasattr(self, "movementAnimationThread"):
             self.movementAnimationThread.animating = False
         self.movementAnimationThread = BaseObject.MovementAnimationThread(self, pos, duration)
         self.movementAnimationThread.start()
 
-    def update(self, game):             #更新
+    def update(self, game):
         # update the sprite's drawing position relative to the camera
         coord = self.pos - game.camera.pos
         if self.alignment == Alignment.TOP_LEFT:
@@ -94,10 +94,10 @@ class BaseObject(sprite.Sprite):
         #self.unbindAll()
         sprite.Sprite.kill(self)
 
-    def offset(self, x, y):             #偏移
+    def offset(self, x, y):
         self.pos += numpy.array([int(x),int(y)])
 
-    def toDict(self):                   #打包
+    def toDict(self):       #打包
         d = {
             "class": "%s.%s" % (self.__class__.__module__, self.__class__.__name__)
         }
@@ -109,7 +109,7 @@ class BaseObject(sprite.Sprite):
     def _serializeMember(self, name):
         return self._serializeValue(name, self.__dict__[name])
 
-    def _deserializeValue(self, name, value):   #打包解码
+    def _deserializeValue(self, name, value):
         evalTag = "_EVAL_:"
         if type(value) == str and value[:len(evalTag)] == evalTag:
             value = eval(value[len(evalTag):])
@@ -118,7 +118,7 @@ class BaseObject(sprite.Sprite):
     def _stringToEval(self, s):
         return "_EVAL_:" + s
 
-    def _serializeValue(self, name, value): #打包编码
+    def _serializeValue(self, name, value):
         if name == "rect":
             return self._stringToEval("pygame.Rect(%d, %d, %d, %d)" % (self.rect.left, self.rect.top, self.rect.width, self.rect.height))
         if name == "pos":
@@ -128,27 +128,107 @@ class BaseObject(sprite.Sprite):
     def serialize(self):
         return pickle.dumps(self.toDict())
 
-    def absRect(self):      #绝对值矩阵
+    def absRect(self):  #绝对值矩阵
         ''' returns a rectangle reflecting the abolute extents of the object '''
         return pygame.Rect(self.pos[0], self.pos[1], self.rect.width, self.rect.height)
 
-class Rectangle(BaseObject):        #画板矩形类
+class Rectangle(BaseObject):
     def __init__(self, d, game, **kwargs):
-        if not "isUserObject" in kwargs: kwargs["isUserObject"] = True
+        if not "isUserObject" in kwargs:
+            kwargs["isUserObject"] = True
         BaseObject.__init__(self, d, game, persistentMembers=["colour"], **kwargs)
         self.setSize(self.rect.width, self.rect.height)
 
-    def setSize(self, width, height):       #矩形形状属性
+    def setSize(self, width, height):
         width, height = max(1, width), max(1, height)
         alpha = len(self.colour) == 4
         surface = pygame.Surface((width, height), flags=pygame.SRCALPHA if alpha else 0)
-        #直接使用surface作为矩形
         surface.fill(self.colour)
         self.image = surface.convert() if not alpha else surface.convert_alpha()
         self.rect.width = width
         self.rect.height = height
 
-class Image(BaseObject):        #图片（保存的临时文件？）类
+class Ellipse(BaseObject):
+    def __init__(self,d,game,**kwargs):
+        if not "isUserObject" in kwargs:
+            kwargs["isUserObject"] = True
+        BaseObject.__init__(self, d, game, persistentMembers=["colour"], **kwargs)
+        self.setSize(self.rect.width, self.rect.height)
+
+    def setSize(self, width,height):
+        width, height = max(1, width), max(1, height)
+        alpha = len(self.colour) == 4
+        surface = pygame.Surface((width, height), flags=pygame.SRCALPHA if alpha else 0)
+        pygame.draw.ellipse(surface, self.colour, pygame.Rect(0, 0, width,height))
+        self.image = surface.convert() if not alpha else surface.convert_alpha()
+        self.rect.width = width
+        self.rect.height = height
+
+class Circle(BaseObject):
+    def __init__(self, d, game, **kwargs):
+        if not "isUserObject" in kwargs:
+            kwargs["isUserObject"] = True
+        BaseObject.__init__(self, d, game, persistentMembers=["colour"], **kwargs)
+        self.setRadius(int(self.rect.width/2))
+
+    def setRadius(self, radius):
+        radius = max(1, radius)
+        alpha = len(self.colour) == 4
+        width,height = (radius * 2, radius * 2)
+        surface = pygame.Surface((width,height), flags=pygame.SRCALPHA if alpha else 0)
+        pygame.draw.circle(surface, self.colour, (radius,radius),radius)
+        self.image = surface.convert() if not alpha else surface.convert_alpha()
+        self.rect.width = width
+        self.rect.height = height
+
+class Line(BaseObject):
+    def __init__(self,d,game,**kwargs):
+        if not "isUserObject" in kwargs:
+            kwargs["isUserObject"] = True
+        BaseObject.__init__(self, d, game, persistentMembers=["colour","start_pos","end_pos"], **kwargs)
+        self.setEnd(self.end_pos)
+
+    def setEnd(self, end_pos):
+        alpha = len(self.colour) == 4
+        self.end_pos = end_pos
+        #按起点和终点绘制一个surface
+        surface = self.drawSurface()
+
+        #根据起点和终点更新pos
+        self.updatePos()
+
+        self.image = surface.convert() if not alpha else surface.convert_alpha()
+
+        self.rect.width = abs(surface.get_width())
+        self.rect.height = abs(surface.get_height())
+        print()
+
+    def drawSurface(self):
+        alpha = len(self.colour) == 4
+        surface = pygame.Surface((abs(self.end_pos[0]-self.start_pos[0])+5,abs(self.end_pos[1]-self.start_pos[1])+5), flags=pygame.SRCALPHA if alpha else 0)
+
+        print(f"{self.pos},{self.start_pos},{self.end_pos}")
+        # surface.fill((25,25,25))
+
+        chx = self.end_pos[0] - self.start_pos[0]
+        chy = self.end_pos[1] - self.start_pos[1]
+
+        if chx>=0 and chy>=0:
+            pygame.draw.line(surface, self.colour, (0,0), (chx,chy),4)
+        elif chx>=0 and chy<=0:
+            pygame.draw.line(surface, self.colour, (0,-chy), (chx,0),4)
+        elif chx<=0 and chy>=0:
+            pygame.draw.line(surface, self.colour, (0, chy), (-chx, 0),4)
+        else:
+            pygame.draw.line(surface, self.colour, (0, 0), (-chx, -chy),4)
+
+        return surface
+
+    def updatePos(self):
+        self.pos = (min(self.start_pos[0],self.end_pos[0]),min(self.start_pos[1],self.end_pos[1]))
+
+
+class Image(BaseObject):
     def __init__(self, d, game, persistentMembers = None, **kwargs):
         if persistentMembers is None: persistentMembers = []
         BaseObject.__init__(self, d, game, persistentMembers=persistentMembers+["isUserObject", "image"], **kwargs)
@@ -157,16 +237,16 @@ class Image(BaseObject):        #图片（保存的临时文件？）类
         self.image = surface.convert() if not ppAlpha else surface.convert_alpha()
         self.rect = self.image.get_rect()
 
-    def _serializeValue(self, name, value): #传输编码
+    def _serializeValue(self, name, value):
         if name == "image":
             format = "RGBA"
             s = pygame.image.tostring(self.image, format)
             cs = s
-            print ("compression: %d -> %d" % (len(s), len(cs)))
+            print("compression: %d -> %d" % (len(s), len(cs)))
             return (cs, self.image.get_size(), format)
         return super(Image, self)._serializeValue(name, value)
 
-    def _deserializeValue(self, name, value):   #接受解码
+    def _deserializeValue(self, name, value):
         if name == "image" and type(value) == tuple:
             dim = value[1:][0]
             if dim[0] == 0 or dim[1] == 0:
@@ -174,13 +254,13 @@ class Image(BaseObject):        #图片（保存的临时文件？）类
             return pygame.image.frombuffer(value[0], *value[1:])
         return super(Image, self)._deserializeValue(name, value)
 
-class ImageFromResource(Image):                 #导入图片
+class ImageFromResource(Image):
     def __init__(self, filename, game, ppAlpha=False, **kwargs):
         Image.__init__(self, {}, game, **kwargs)
         surface = pygame.image.load(filename)
         self.setSurface(surface, ppAlpha=ppAlpha)
 
-class ScribbleRenderer(object):                 #涂鸦渲染
+class ScribbleRenderer(object):
     def __init__(self, scribble):
         self.antialiasing = False
         self.margin = 2*scribble.lineWidth
@@ -196,7 +276,7 @@ class ScribbleRenderer(object):                 #涂鸦渲染
         self.obj = scribble
         self.inputBuffer = []
 
-    def addPoint(self, x, y, draw=True):            #绘图点
+    def addPoint(self, x, y, draw=True):
         if self.isFirstPoint:
             self.lineStartPos = numpy.array([x, y])
             self.translateOrigin = numpy.array([-x, -y])
@@ -223,7 +303,7 @@ class ScribbleRenderer(object):                 #涂鸦渲染
         newWidth = oldWidth
         newHeight = oldHeight
 
-        # determine growth          框扩展？
+        # determine growth
         for x, y in self.inputBuffer:
             #print "\nminX=%d maxX=%d" % (self.minX, self.maxX)
             #print "x=%d y=%d" % (x,y)
@@ -246,7 +326,6 @@ class ScribbleRenderer(object):                 #涂鸦渲染
             newHeight += growBottom + growTop
 
         # create new larger surface and copy old surface content
-        #创建新的大框
         if newWidth > oldWidth or newHeight > oldHeight:
             #print "newDim: (%d, %d)" % (newWidth, newHeight)
             surface = pygame.Surface((newWidth, newHeight), pygame.SRCALPHA if self.antialiasing else 0)
@@ -287,7 +366,7 @@ class ScribbleRenderer(object):                 #涂鸦渲染
     def end(self):
         self._processInputs()
 
-class Scribble(Image):      #画线高级封装？
+class Scribble(Image):
     ''' an image-based scribble sprite '''
     def __init__(self, d, game, startPoint=None, persistentMembers=None):
         if startPoint is not None:
@@ -298,16 +377,16 @@ class Scribble(Image):      #画线高级封装？
         if persistentMembers is None: persistentMembers = []
         Image.__init__(self, d, game, isUserObject=True, persistentMembers=persistentMembers+["lineWidth", "colour"])
 
-    def addPoints(self, points):    #添加落点
+    def addPoints(self, points):
         if not hasattr(self, "scribbleRenderer"):
             self.scribbleRenderer = ScribbleRenderer(self)
         self.scribbleRenderer.addPoints(points)
 
-    def endDrawing(self):           #停止绘画
+    def endDrawing(self):
         self.scribbleRenderer.end()
         del self.scribbleRenderer
 
-class PointBasedScribble(Scribble): #画线再次封装？
+class PointBasedScribble(Scribble):
     ''' a point-based scribble sprite, which, when persisted, is reconstructed from the individual points '''
     def __init__(self, d, game, startPoint=None):
         pos = None
@@ -335,13 +414,13 @@ class PointBasedScribble(Scribble): #画线再次封装？
         Scribble.addPoints(self, points)
         #log.debug("relative points: %s", map(list, [numpy.array(p)-self.pos for p in self.points]))
 
-class Text(Image):      #文字
+class Text(Image):
     def __init__(self, d, game):
         Image.__init__(self, d, game, persistentMembers=["text", "colour", "fontSize", "fontName"], isUserObject=True)
         self.font = pygame.font.SysFont(self.fontName, self.fontSize)
         self.setText(self.text)
 
-    def setText(self, text):        #编辑文字
+    def setText(self, text):
         #font = pygame.freetype.get_default_font()
         #self.image = font.render(self.text, fgcolor=self.colour, size=10)
         self.text = text
@@ -364,6 +443,6 @@ class Text(Image):      #文字
 
         self.setSurface(surface)
 
-def boundingRect(objects):  #画图框边界？
+def boundingRect(objects):
     r = objects[0].absRect()
     return r.unionall([o.absRect() for o in objects[1:]])

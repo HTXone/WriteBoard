@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#E:/githubrep/wYPeboard/net.py</OriginalElement>
+  <nodes>
+    <node x="567.0" y="1813.0">net.SyncServer</node>
+    <node x="263.5" y="1373.0">asyncore.dispatcher_with_send</node>
+    <node x="244.0" y="1767.0">net.SyncClient</node>
+    <node x="273.0" y="1570.0">net.Dispatcher</node>
+    <node x="0.0" y="1801.5">net.DispatcherConnection</node>
+    <node x="170.5" y="601.0">asyncore.dispatcher</node>
+    <node x="319.5" y="0.0">typing.Hashable</node>
+    <node x="272.0" y="105.0">object</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="net.SyncClient" target="net.Dispatcher">
+      <point x="0.0" y="-108.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="net.SyncServer" target="net.Dispatcher">
+      <point x="0.0" y="-62.0" />
+      <point x="697.0" y="1742.0" />
+      <point x="477.16666666666674" y="1742.0" />
+      <point x="81.66666666666674" y="73.5" />
+    </edge>
+    <edge source="net.Dispatcher" target="asyncore.dispatcher_with_send">
+      <point x="0.0" y="-73.5" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="asyncore.dispatcher" target="object">
+      <point x="0.0" y="-361.0" />
+      <point x="0.0" y="223.0" />
+    </edge>
+    <edge source="object" target="typing.Hashable">
+      <point x="0.0" y="-223.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="asyncore.dispatcher_with_send" target="asyncore.dispatcher">
+      <point x="0.0" y="-73.5" />
+      <point x="0.0" y="361.0" />
+    </edge>
+    <edge source="net.DispatcherConnection" target="net.Dispatcher">
+      <point x="0.0" y="-73.5" />
+      <point x="112.0" y="1742.0" />
+      <point x="313.8333333333333" y="1742.0" />
+      <point x="-81.66666666666669" y="73.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9" x="229.42063492063426" y="1468.2222222222222" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+

@@ -18,35 +18,36 @@ log.setLevel(logging.DEBUG)
 #白板程序 继承whiteboard
 class DispatchingWhiteboard(Whiteboard):
 	def __init__(self, title, isServer, **kwargs):
-		self.isServer = isServer		#判断
-		self.lastPing = t.time()		#ping值
-		self.lastCursorMoveTime = t.time()	#move事件？
+		self.isServer = isServer
+		self.lastPing = t.time()
+		self.lastCursorMoveTime = t.time()
 		self.userName = "user " + str(t.time())
-		self.remoteUserCursorUpdateInterval = 0.1  #光标更新间隙
-		Whiteboard.__init__(self, title, **kwargs)		#白板
-		self.Centre()					#
-		self.connId2UserName = {}		#Client连接ID
+		self.remoteUserCursorUpdateInterval = 0.1
+		Whiteboard.__init__(self, title, **kwargs)
+		self.Centre()
+		self.connId2UserName = {}
 
-	def onObjectCreationCompleted(self, object):			#添加元素
+	def onObjectCreationCompleted(self, object):
 		self.dispatch(evt="addObject", args=(object.serialize(),))
 
-	def onObjectsDeleted(self, *ids):						#删除元素
+	def onObjectsDeleted(self, *ids):
 		self.dispatch(evt="deleteObjects", args=ids)
 
-	def onObjectsMoved(self, offset, *ids):					#移动元素
+	def onObjectsMoved(self, offset, *ids):
 		self.dispatch(evt="moveObjects", args=[offset] + list(ids))
 
-	def onObjectUpdated(self, objectId, operation, args):	#更新元素
+	def onObjectUpdated(self, objectId, operation, args):
 		self.dispatch(evt="updateObject", args=(objectId, operation, args))
 
-	def onCursorMoved(self, pos):							#光标移动
-		now = t.time()
-		if now - self.lastCursorMoveTime > self.remoteUserCursorUpdateInterval:
-			#for i in range(1000):
-			self.dispatch(evt="moveUserCursor", args=(self.userName, pos,))
-			self.lastCursorMoveTime = now
+	def onCursorMoved(self, pos):
+		pass
+		# now = t.time()
+		# if now - self.lastCursorMoveTime > self.remoteUserCursorUpdateInterval:
+		# 	#for i in range(1000):
+		# 	self.dispatch(evt="moveUserCursor", args=(self.userName, pos,))
+		# 	self.lastCursorMoveTime = now
 
-	def moveUserCursor(self, userName, pos):				#移动光标
+	def moveUserCursor(self, userName, pos):
 		sprite = self.viewer.userCursors.get(userName)
 		if sprite is None: return
 		sprite.animateMovement(pos, self.remoteUserCursorUpdateInterval)
@@ -57,10 +58,10 @@ class DispatchingWhiteboard(Whiteboard):
 			return s
 		return objects.deserialize(s, self.viewer)
 
-	def addObject(self, object):	#显示白板添加元素
+	def addObject(self, object):
 		super(DispatchingWhiteboard, self).addObject(self._deserialize(object))
 
-	def setObjects(self, objects, dispatch=True):	#
+	def setObjects(self, objects, dispatch=True):
 		log.debug("setObjects with %d objects", len(objects))
 		objects = map(lambda o: self._deserialize(o), objects)
 		super(DispatchingWhiteboard, self).setObjects(objects)
@@ -78,18 +79,17 @@ class DispatchingWhiteboard(Whiteboard):
 	def dispatch(self, exclude=None, **d):
 		self.dispatcher.dispatch(d, exclude=exclude)
 
-	#网络事件
 	def handleNetworkEvent(self, d):
 		exec("self.%s(*d['args'])" % d["evt"])
 
 	def OnTimer(self, evt):
-		# Player.OnTimer(self, evt)
-		# # perform periodic ping from client to server
-		# if not self.isServer:
-		# 	if t.time() - self.lastPing > 1:
-		# 		self.lastPing = t.time()
-		# 		self.dispatch(ping = True)
-		None
+		Player.OnTimer(self, evt)
+		# perform periodic ping from client to server
+		if not self.isServer:
+			if t.time() - self.lastPing > 1:
+				self.lastPing = t.time()
+				self.dispatch(ping = True)
+
 	# server delegate methods
 
 	def handle_ServerLaunched(self):
@@ -125,7 +125,7 @@ class DispatchingWhiteboard(Whiteboard):
 			self.Close()
 
 	# client/server delegate methods
-	#拿包
+
 	def handle_PacketReceived(self, data, conn):
 		d = pickle.loads(data)
 		if type(d) == dict and "ping" in d: # ignore pings
@@ -143,8 +143,6 @@ class DispatchingWhiteboard(Whiteboard):
 	def setDispatcher(self, dispatcher):
 		self.dispatcher = dispatcher
 
-
-#主程序开启
 if __name__=='__main__':
 	app = wx.App(False)
 
@@ -170,17 +168,17 @@ if __name__=='__main__':
 			ipv6 = True
 			argv = argv[1:]
 		else:
-			print ("invalid argument: {}".format(a))
+			print( "invalid argument: %s" % a)
 			help = True
 			break
 	if help or isServer is None:
 		appName = "sync.py"
-		print ("\nwYPeboard\n")
-		print ("usage:")
-		print ("   server:  {} [options] serve <port>".format(appName))
-		print ("   client:  {} [options] connect <server> <port>".format(appName))
-		print ("\noptions:")
-		print ("   --ipv6   use IPv6 instead of IPv4")
+		print( "\nwYPeboard\n")
+		print( "usage:")
+		print( "   server:  %s [options] serve <port>" % appName)
+		print( "   client:  %s [options] connect <server> <port>" % appName)
+		print( "\noptions:")
+		print( "   --ipv6   use IPv6 instead of IPv4")
 		sys.exit(1)
 	whiteboard = DispatchingWhiteboard("wYPeboard server" if isServer else "wYPeboard client", isServer, canvasSize=size)
 	if isServer:

@@ -4,7 +4,6 @@ import pygame
 import logging
 
 log = logging.getLogger(__name__)
-
 #计算线条框
 def aaline(surface, colour, pos1, pos2, lineWidth=3):
     log.debug("aaline: %s -> %s", pos1, pos2)
