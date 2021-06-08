@@ -7,8 +7,8 @@ import numpy
 import objects
 import pickle
 import threading
-import aaline
 import logging
+import utils
 
 log = logging.getLogger(__name__)
 
@@ -360,7 +360,7 @@ class ScribbleRenderer(object):
         if not self.antialiasing:
             pygame.draw.line(self.surface, self.colour, pos1, pos2, self.lineWidth)
         else:
-            aaline.aaline(self.surface, self.colour, pos1, pos2, self.lineWidth)
+            utils.aaline(self.surface, self.colour, pos1, pos2, self.lineWidth)
         self.lineStartPos = numpy.array([x, y])
 
     def end(self):
@@ -443,6 +443,4 @@ class Text(Image):
 
         self.setSurface(surface)
 
-def boundingRect(objects):
-    r = objects[0].absRect()
-    return r.unionall([o.absRect() for o in objects[1:]])
+
