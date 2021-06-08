@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26fcf59e-f651-4187-bc2a-849656e6f035" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/aaline.py" beforeDir="false" afterPath="$PROJECT_DIR$/aaline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net.py" beforeDir="false" afterPath="$PROJECT_DIR$/net.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/objects.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/renderer.py" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GIF.py" beforeDir="false" afterPath="$PROJECT_DIR$/GIF.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sync.py" beforeDir="false" afterPath="$PROJECT_DIR$/sync.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/whiteboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/whiteboard.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,13 +15,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/whiteboard.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13114">
-              <caret line="618" column="35" selection-start-line="618" selection-start-column="35" selection-end-line="618" selection-end-column="35" />
+            <state relative-caret-position="15159">
+              <caret line="781" column="17" selection-start-line="781" selection-start-column="17" selection-end-line="781" selection-end-column="17" />
               <folding>
                 <element signature="e#1285#1530#0" />
+                <element signature="e#3180#5533#0" />
               </folding>
             </state>
           </provider>
@@ -31,7 +31,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/aaline.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
+            <state relative-caret-position="1188">
               <caret line="55" selection-start-line="55" selection-end-line="55" />
             </state>
           </provider>
@@ -40,7 +40,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
+            <state relative-caret-position="4114">
               <caret line="192" column="6" selection-start-line="192" selection-start-column="6" selection-end-line="192" selection-end-column="6" />
             </state>
           </provider>
@@ -49,12 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sync.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2794">
-              <caret line="141" column="12" selection-start-line="141" selection-start-column="12" selection-end-line="141" selection-end-column="12" />
-              <folding>
-                <element signature="e#1096#1100#0" />
-                <element signature="e#1373#1514#0" />
-              </folding>
+            <state relative-caret-position="189">
+              <caret line="150" column="19" selection-start-line="150" selection-start-column="19" selection-end-line="150" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -62,11 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GIF.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2706">
-              <caret line="127" column="53" selection-start-line="127" selection-start-column="53" selection-end-line="127" selection-end-column="53" />
-              <folding>
-                <element signature="e#264#280#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="132">
+              <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -74,21 +67,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/objects.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
+            <state relative-caret-position="2684">
               <caret line="130" column="30" selection-start-line="130" selection-start-column="30" selection-end-line="130" selection-end-column="30" />
-              <folding>
-                <element signature="e#2743#3115#0" />
-                <element signature="e#4720#5381#0" />
-              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/renderer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+            <state relative-caret-position="264">
+              <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+              <folding>
+                <element signature="e#44#53#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -105,6 +97,8 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Image</find>
+      <find>pygame</find>
+      <find>wYpe</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -113,18 +107,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/GIF.py" />
-        <option value="$PROJECT_DIR$/whiteboard.py" />
         <option value="$PROJECT_DIR$/aaline.py" />
         <option value="$PROJECT_DIR$/net.py" />
         <option value="$PROJECT_DIR$/objects.py" />
         <option value="$PROJECT_DIR$/renderer.py" />
+        <option value="$PROJECT_DIR$/GIF.py" />
+        <option value="$PROJECT_DIR$/sync.py" />
+        <option value="$PROJECT_DIR$/whiteboard.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-9" />
-    <option name="width" value="978" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-10" />
+    <option name="width" value="979" />
     <option name="height" value="1050" />
   </component>
   <component name="ProjectView">
@@ -137,8 +132,8 @@
         <subPane>
           <expand>
             <path>
-              <item name="xywhiteboard" type="b2602c69:ProjectViewProjectNode" />
-              <item name="xywhiteboard" type="462c0819:PsiDirectoryNode" />
+              <item name="WriteBoard" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WriteBoard" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -148,7 +143,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="D:/python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../python" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -161,6 +156,34 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="GIF" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="wYPeboard" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GIF.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.GIF" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -176,15 +199,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="0" width="781" height="840" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31673583" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16286863" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32960895" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.15921788" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -204,7 +227,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/whiteboard.py</url>
-          <line>372</line>
+          <line>378</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
@@ -218,66 +241,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/whiteboard.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13114">
-          <caret line="618" column="35" selection-start-line="618" selection-start-column="35" selection-end-line="618" selection-end-column="35" />
-          <folding>
-            <element signature="e#1285#1530#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sync.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2794">
-          <caret line="141" column="12" selection-start-line="141" selection-start-column="12" selection-end-line="141" selection-end-column="12" />
-          <folding>
-            <element signature="e#1096#1100#0" />
-            <element signature="e#1373#1514#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GIF.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2706">
-          <caret line="127" column="53" selection-start-line="127" selection-start-column="53" selection-end-line="127" selection-end-column="53" />
-          <folding>
-            <element signature="e#264#280#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/aaline.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
+        <state relative-caret-position="1188">
           <caret line="55" selection-start-line="55" selection-end-line="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/net.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
+        <state relative-caret-position="4114">
           <caret line="192" column="6" selection-start-line="192" selection-start-column="6" selection-end-line="192" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/objects.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
+        <state relative-caret-position="2684">
           <caret line="130" column="30" selection-start-line="130" selection-start-column="30" selection-end-line="130" selection-end-column="30" />
-          <folding>
-            <element signature="e#2743#3115#0" />
-            <element signature="e#4720#5381#0" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/renderer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+        <state relative-caret-position="264">
+          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+          <folding>
+            <element signature="e#44#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GIF.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sync.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="150" column="19" selection-start-line="150" selection-start-column="19" selection-end-line="150" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/whiteboard.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15159">
+          <caret line="781" column="17" selection-start-line="781" selection-start-column="17" selection-end-line="781" selection-end-column="17" />
+          <folding>
+            <element signature="e#1285#1530#0" />
+            <element signature="e#3180#5533#0" />
+          </folding>
         </state>
       </provider>
     </entry>

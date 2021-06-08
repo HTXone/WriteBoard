@@ -82,13 +82,13 @@ class DispatchingWhiteboard(Whiteboard):
 	def handleNetworkEvent(self, d):
 		exec("self.%s(*d['args'])" % d["evt"])
 
-	def OnTimer(self, evt):
-		Player.OnTimer(self, evt)
-		# perform periodic ping from client to server
-		if not self.isServer:
-			if t.time() - self.lastPing > 1:
-				self.lastPing = t.time()
-				self.dispatch(ping = True)
+	# def OnTimer(self, evt):
+	# 	Player.OnTimer(self, evt)
+	# 	# perform periodic ping from client to server
+	# 	if not self.isServer:
+	# 		if t.time() - self.lastPing > 1:
+	# 			self.lastPing = t.time()
+	# 			self.dispatch(ping = True)
 
 	# server delegate methods
 
@@ -148,7 +148,7 @@ if __name__=='__main__':
 
 	argv = sys.argv[1:]
 	#size = (1800, 950)
-	size = (800, 600)
+	size = (1000, 800)
 	isServer = None
 	server = None
 	ipv6 = False
@@ -180,7 +180,7 @@ if __name__=='__main__':
 		print( "\noptions:")
 		print( "   --ipv6   use IPv6 instead of IPv4")
 		sys.exit(1)
-	whiteboard = DispatchingWhiteboard("wYPeboard server" if isServer else "wYPeboard client", isServer, canvasSize=size)
+	whiteboard = DispatchingWhiteboard("WriteBoard server" if isServer else "WriteBoard client", isServer, canvasSize=size)
 	if isServer:
 		startServer(port, whiteboard, ipv6=ipv6)
 	else:

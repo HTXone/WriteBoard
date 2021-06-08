@@ -39,6 +39,9 @@ class SDLPanel(wx.Panel):
 
         pygame.display.set_caption(caption)
 
+        icon = pygame.image.load("./img/icon.png")
+        pygame.display.set_icon(icon)
+
         # initialize level viewer
         # 与pygame相关逻辑，工具窗口通过这个接口改变工具状态
         self.viewer = Viewer(tplSize, parent)
@@ -263,7 +266,10 @@ class Tool(object):
 
     def toolbarItem(self, parent, onActivate):
         btn = wx.Button(parent, label=self.name)
-        btn.Bind(wx.EVT_BUTTON, lambda evt: onActivate(self), btn)
+        btn.SetBackgroundColour("#BDBDBD")
+        self.btn = btn
+        btn.Bind(wx.EVT_BUTTON, lambda evt: onActivate(self,self.btn), btn)
+
         return btn
 
     def activate(self):
@@ -601,7 +607,7 @@ class ShapeTool(Tool):
         if self.otype[0] == 'Ellipse':
             return self.EllipseStart()
         if self.otype[0] == 'Line':
-            return self.Line()
+            return self.LineStart()
         return None
 
     def objectReshape(self,x,y):
@@ -762,6 +768,7 @@ class Whiteboard(wx.Frame):
 
         toolbar = wx.Panel(self)
         self.toolbar = toolbar
+        self.fontTool = FontTool(self)
         self.colourTool = ColourTool(self)
         self.penTool = PenTool(self)
         self.lineTool = LineTool(self)
@@ -771,10 +778,9 @@ class Whiteboard(wx.Frame):
         self.ellipseTool = EllipseTool(self)
         self.eraserTool = EraserTool(self)
         self.selectTool = SelectTool(self)
-        self.fontTool = FontTool(self)
         self.shapeTool = ShapeTool(self)
         tools = [
-             self.selectTool,
+             self.fontTool,
              self.colourTool,
              self.penTool,
              self.lineTool,
@@ -782,7 +788,7 @@ class Whiteboard(wx.Frame):
              self.circleTool,
              self.ellipseTool,
              self.textTool,
-             self.fontTool,
+             self.selectTool,
              self.eraserTool,
             self.shapeTool
         ]
@@ -794,22 +800,28 @@ class Whiteboard(wx.Frame):
         #     (pygame.K_s, pygame.KMOD_NONE): self.selectTool,
         #     (pygame.K_t, pygame.KMOD_NONE): self.textTool
         # }
-        box = wx.BoxSizer(wx.HORIZONTAL)
+        box = wx.BoxSizer(wx.VERTICAL)
+        self.btnList = []
         for i, tool in enumerate(tools):
             control = tool.toolbarItem(toolbar, self.onSelectTool)
+            self.btnList.append(control)
             box.Add(control, 0, flag=wx.EXPAND)
         toolbar.SetSizer(box)
 
-        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer = wx.BoxSizer(wx.HORIZONTAL)
         sizer.Add(toolbar, flag=wx.EXPAND | wx.BOTTOM, border=0)
         sizer.Add(self.pnlSDL, 1, flag=wx.EXPAND)
         self.SetSizer(sizer)
 
+
     def startRendering(self):
         self.pnlSDL.startRendering()
 
-    def onSelectTool(self, tool):
+    def onSelectTool(self, tool,btn):
+        for i in self.btnList:
+            i.SetBackgroundColour("#BDBDBD")
         self.viewer.setActiveTool(tool)
+        btn.SetBackgroundColour("#5858FA")
         log.debug("selected tool %s" % tool.name)
 
     def getColour(self):
@@ -950,7 +962,7 @@ class Whiteboard(wx.Frame):
 
 if __name__ == '__main__':
     app = wx.App(False)
-    whiteboard = Whiteboard("wYPeboard")
+    whiteboard = Whiteboard("WriteBoard")
     whiteboard.startRendering()
     whiteboard.Show()
     app.MainLoop()
