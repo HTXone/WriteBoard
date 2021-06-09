@@ -27,7 +27,7 @@ class Tool(object):
         self.name = name
         self.wb = wb
         self.viewer = wb.viewer
-        self.camera = wb.viewer.camera
+        self.cameraPos = wb.viewer.cameraPos
         self.obj = None
         self.mouseCursor = "arrow"
 
@@ -52,7 +52,7 @@ class Tool(object):
         pass
 
     def screenPoint(self, x, y):
-        return numpy.array([x, y]) - self.camera.pos
+        return numpy.array([x, y]) - self.cameraPos
 
     def end(self, x, y):
         self.obj = None
@@ -133,7 +133,7 @@ class RectTool(Tool):
     def addPos(self, x, y):
         if self.obj is None: return
         topLeft = numpy.array([self.obj.rect.left, self.obj.rect.top])
-        pos = numpy.array([x, y]) - self.camera.pos
+        pos = numpy.array([x, y]) - self.cameraPos
         dim = pos - topLeft
         if dim[0] > 0 and dim[1] > 0:
             self.obj.setSize(dim[0], dim[1])
@@ -175,7 +175,7 @@ class EllipseTool(Tool):
     def addPos(self, x, y):
         if self.obj is None: return
         topLeft = numpy.array([self.obj.rect.left, self.obj.rect.top])
-        pos = numpy.array([x, y]) - self.camera.pos
+        pos = numpy.array([x, y]) - self.cameraPos
         dim = pos - topLeft
         if dim[0] > 0 and dim[1] > 0:
             self.obj.setSize(dim[0], dim[1])
@@ -200,7 +200,7 @@ class CircleTool(Tool):
     def addPos(self, x, y):
         if self.obj is None: return
         left = self.obj.rect.left
-        pos = numpy.array([x, y]) - self.camera.pos
+        pos = numpy.array([x, y]) - self.cameraPos
         # print(f"pos={pos},centerx={centerx},left={self.obj.rect.left}")
         dim = pos[0] - left
         if dim>0:
@@ -430,7 +430,7 @@ class ShapeTool(Tool):
     def addCirclePos(self, x, y):
         if self.obj is None: return
         left = self.obj.rect.left
-        pos = numpy.array([x, y]) - self.camera.pos
+        pos = numpy.array([x, y]) - self.cameraPos
         # print(f"pos={pos},centerx={centerx},left={self.obj.rect.left}")
         dim = pos[0] - left
         if dim > 0:
@@ -442,7 +442,7 @@ class ShapeTool(Tool):
     def addEllipsePos(self, x, y):
         if self.obj is None: return
         topLeft = numpy.array([self.obj.rect.left, self.obj.rect.top])
-        pos = numpy.array([x, y]) - self.camera.pos
+        pos = numpy.array([x, y]) - self.cameraPos
         dim = pos - topLeft
         if dim[0] > 0 and dim[1] > 0:
             self.obj.setSize(dim[0], dim[1])
@@ -452,7 +452,7 @@ class ShapeTool(Tool):
     def addRectPos(self, x, y):
         if self.obj is None: return
         topLeft = numpy.array([self.obj.rect.left, self.obj.rect.top])
-        pos = numpy.array([x, y]) - self.camera.pos
+        pos = numpy.array([x, y]) - self.cameraPos
         dim = pos - topLeft
         if dim[0] > 0 and dim[1] > 0:
             self.obj.setSize(dim[0], dim[1])

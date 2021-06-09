@@ -80,7 +80,7 @@ class BaseObject(sprite.Sprite):
 
     def update(self, game):
         # update the sprite's drawing position relative to the camera
-        coord = self.pos - game.camera.pos
+        coord = self.pos - game.cameraPos
         if self.alignment == Alignment.TOP_LEFT:
             self.rect.topleft = coord
         elif self.alignment == Alignment.CENTRE:
@@ -289,7 +289,7 @@ class PointBasedScribble(Image):
         if not hasattr(self, "points"):
             self.points = []
         else:
-            self.addPoints(self, self.points)
+            self.addPoints(self.points)
         if pos is not None:
             self.pos = pos
 

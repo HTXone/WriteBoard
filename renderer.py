@@ -12,7 +12,7 @@ global renderer
 global objects
 
 #画图类
-class WhiteboardRenderer(sprite.LayeredUpdates):
+class WhiteboardWindow(sprite.LayeredUpdates):
     def __init__(self, game):
         #这里传入的game就是viewer对象
         sprite.LayeredUpdates.__init__(self)

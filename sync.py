@@ -106,7 +106,7 @@ class DispatchingWhiteboard(Whiteboard):
 		userName = self.connId2UserName.get(id(conn))
 		if userName is not None:
 			log.info("connection of user '%s' closed", userName)
-			self.deleteUser(userName)
+			# self.deleteUser(userName)
 		else:
 			log.warning("connection closed, unknown user name")
 
@@ -120,7 +120,7 @@ class DispatchingWhiteboard(Whiteboard):
 		self.dispatch(evt="addUser", args=(self.userName,))
 
 	def handle_ConnectionToServerLost(self):
-		self.deleteAllUsers()
+		# self.deleteAllUsers()
 		if self.questionDialog("No connection. Reconnect?\nClick 'No' to quit.", "Reconnect?"):
 			self.dispatcher.reconnect()
 		else:
@@ -182,10 +182,10 @@ if __name__=='__main__':
 		print( "\noptions:")
 		print( "   --ipv6   use IPv6 instead of IPv4")
 		sys.exit(1)
-	whiteboard = DispatchingWhiteboard("WriteBoard server" if isServer else "WriteBoard client", isServer, canvasSize=size)
+	whiteboard = DispatchingWhiteboard("WriteBoard server" if isServer else "WriteBoard client", isServer, WindowsSize=size)
 	if isServer:
-		startServer(port, whiteboard, app, ipv6=ipv6)
+		startServer(port, whiteboard, ipv6=ipv6)
 	else:
-		startClient(server, port, whiteboard,app, ipv6=ipv6)
+		startClient(server, port, whiteboard, ipv6=ipv6)
 	whiteboard.startRendering()
 	app.MainLoop()
