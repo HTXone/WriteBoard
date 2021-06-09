@@ -22,7 +22,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 log = logging.getLogger(__name__)
 
-
 class Tool(object):
     def __init__(self, name, wb):
         self.name = name
@@ -65,7 +64,7 @@ class SelectTool(Tool):
 
     def reset(self):
         self.selectionChooserRect = objects.Rectangle({"colour":(0,0,0,50), "rect":self.noRect.copy()}, self.viewer, isUserObject=False)
-        self.selectedAreaRect = objects.Rectangle({"colour":(0,255,150,50), "rect":self.noRect.copy()}, self.viewer, isUserObject=False)
+        self.selectedAreaRect = objects.Rectangle({"colour":(0,255,250,50), "rect":self.noRect.copy()}, self.viewer, isUserObject=False)
         self.selectedObjects = None
         self.selectMode = True
 
@@ -114,7 +113,7 @@ class SelectTool(Tool):
             self.selectedObjects = objs
             self.selectionChooserRect.kill()
             if len(objs) > 0:
-                r = objects.boundingRect(objs)
+                r = utils.boundingRect(objs)
                 self.selectedAreaRect.pos = r.topleft
                 self.selectedAreaRect.setSize(*r.size)
                 self.wb.addObject(self.selectedAreaRect)
@@ -248,7 +247,8 @@ class PenTool(Tool):
         margin = 2 * self.lineWidth
         d = dict(lineWidth=self.lineWidth, colour=self.wb.getColour())
         if not self.syncWhileDrawing:
-            self.obj = objects.Scribble(d, self.viewer, startPoint=(x,y))
+            print("ERROR IN PEN")
+            # self.obj = objects.Scribble(d, self.viewer, startPoint=(x,y))
         else:
             self.obj = objects.PointBasedScribble(d, self.viewer, startPoint=(x,y))
         self.obj.addPoints([(x, y)])

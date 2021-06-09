@@ -6,6 +6,7 @@ import logging
 import threading
 import pickle
 import hashlib
+from Tools import *
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
@@ -61,7 +62,6 @@ class Dispatcher(asyncore.dispatcher_with_send):
         ''' handles a read packet '''
         log.warning('unhandled packet; size %d' % len(packet))
 
-
 class SyncServer(Dispatcher):
     def __init__(self, port, delegate, ipv6=False):
         Dispatcher.__init__(self, ipv6=ipv6)
@@ -104,6 +104,7 @@ class SyncServer(Dispatcher):
         if len(self.connections) == 0:
             self.delegate.handle_AllClientConnectionsLost()
 
+#改成工厂模式
 class DispatcherConnection(Dispatcher):
     def __init__(self, connection, server):
         Dispatcher.__init__(self, sock=connection)

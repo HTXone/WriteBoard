@@ -4,17 +4,20 @@ import time
 import pygame
 from pygame import sprite
 import numpy
-import objects
+
 import pickle
 import threading
 import logging
 import utils
+from Tools import *
+from renderer import ScribbleRenderer
 
 log = logging.getLogger(__name__)
 
 
 
 class Alignment(object):
+    #参数结构体
     TOP_LEFT, CENTRE, BOTTOM_LEFT = range(3)
 
 class BaseObject(sprite.Sprite):
@@ -225,7 +228,6 @@ class Line(BaseObject):
     def updatePos(self):
         self.pos = (min(self.start_pos[0],self.end_pos[0]),min(self.start_pos[1],self.end_pos[1]))
 
-
 class Image(BaseObject):
     def __init__(self, d, game, persistentMembers = None, **kwargs):
         if persistentMembers is None: persistentMembers = []
@@ -258,135 +260,9 @@ class ImageFromResource(Image):
         surface = pygame.image.load(filename)
         self.setSurface(surface, ppAlpha=ppAlpha)
 
-class ScribbleRenderer(object):
-    def __init__(self, scribble):
-        self.antialiasing = False
-        self.margin = 2*scribble.lineWidth
-        self.colour = scribble.colour
-        self.lineWidth = scribble.lineWidth
-        surface = pygame.Surface((self.margin, self.margin), flags=pygame.SRCALPHA if self.antialiasing else 0) # TODO: aaline does not work with SRCALPHA!
-        self.backgroundColour = (255, 0, 255) if not self.antialiasing else (255, 255, 255, 0)
-        surface.fill(self.backgroundColour)
-        if not self.antialiasing:
-            surface.set_colorkey(self.backgroundColour)
-        self.surface = surface
-        self.isFirstPoint = True
-        self.obj = scribble
-        self.inputBuffer = []
-
-    def addPoint(self, x, y, draw=True):
-        if self.isFirstPoint:
-            self.lineStartPos = numpy.array([x, y])
-            self.translateOrigin = numpy.array([-x, -y])
-            self.minX = self.maxX = x
-            self.minY = self.maxY = y
-            self.isFirstPoint = False
-
-        self.inputBuffer.append((x, y))
-
-        if draw:
-            self._processInputs()
-
-    def addPoints(self, points):
-        for point in points:
-            self.addPoint(*point, draw=False)
-        self._processInputs()
-
-    def _processInputs(self):
-        padLeft = 0
-        padTop = 0
-
-        oldWidth = self.surface.get_width()
-        oldHeight = self.surface.get_height()
-        newWidth = oldWidth
-        newHeight = oldHeight
-
-        # determine growth
-        for x, y in self.inputBuffer:
-            #print "\nminX=%d maxX=%d" % (self.minX, self.maxX)
-            #print "x=%d y=%d" % (x,y)
-            growRight = x - self.maxX if x > self.maxX else 0
-            growLeft = self.minX - x if x < self.minX else 0
-            growBottom = y - self.maxY if y > self.maxY else 0
-            growTop = self.minY - y if y < self.minY else 0
-
-            padLeft += growLeft
-            padTop += growTop
-
-            #print "grow: right=%d left=%d top=%d bottom=%d" % (growRight, growLeft, growTop, growBottom)
-            self.maxX = max(self.maxX, x)
-            self.maxY = max(self.maxY, y)
-            self.minX = min(self.minX, x)
-            self.minY = min(self.minY, y)
-            #print "new: minX=%d maxX=%d" % (self.minX, self.maxX)
-
-            newWidth += growLeft + growRight
-            newHeight += growBottom + growTop
-
-        # create new larger surface and copy old surface content
-        if newWidth > oldWidth or newHeight > oldHeight:
-            #print "newDim: (%d, %d)" % (newWidth, newHeight)
-            surface = pygame.Surface((newWidth, newHeight), pygame.SRCALPHA if self.antialiasing else 0)
-            surface.fill(self.backgroundColour)
-            if not self.antialiasing:
-                surface.set_colorkey(self.backgroundColour)
-            surface.blit(self.surface, (padLeft, padTop))
-            self.surface = surface
-
-        # translate pos
-        self.obj.offset(-padLeft, -padTop)
-
-        # draw new lines
-        for x, y in self.inputBuffer:
-            self._drawLineTo(x, y)
-
-        # apply new surface
-        self.obj.setSurface(self.surface, ppAlpha=self.antialiasing)
-
-        # reset input buffer
-        self.inputBuffer = []
-
-    def _drawLineTo(self, x, y):
-        # draw line
-        margin = self.margin
-        self.translateOrigin = -self.obj.pos + numpy.array([-margin, -margin])
-        #print "translateOrigin=%s" % str(self.translateOrigin)
-        marginTranslate = numpy.array([margin, margin])
-        pos1 = self.lineStartPos + self.translateOrigin + marginTranslate
-        pos2 = numpy.array([x, y]) + self.translateOrigin + marginTranslate
-        #print "drawing from %s to %s" % (str(pos1), str(pos2))
-        if not self.antialiasing:
-            pygame.draw.line(self.surface, self.colour, pos1, pos2, self.lineWidth)
-        else:
-            utils.aaline(self.surface, self.colour, pos1, pos2, self.lineWidth)
-        self.lineStartPos = numpy.array([x, y])
-
-    def end(self):
-        self._processInputs()
-
-class Scribble(Image):
-    ''' an image-based scribble sprite '''
-    def __init__(self, d, game, startPoint=None, persistentMembers=None):
-        if startPoint is not None:
-            if "lineWidth" not in d: raise Exception("construction with startPoint requires lineWidth")
-            margin = 2 * d["lineWidth"]
-            d["rect"] = pygame.Rect(startPoint[0] - margin/2, startPoint[1] - margin/2, margin, margin)
-            if "pos" in d: del d["pos"] # will be set from rect
-        if persistentMembers is None: persistentMembers = []
-        Image.__init__(self, d, game, isUserObject=True, persistentMembers=persistentMembers+["lineWidth", "colour"])
-
-    def addPoints(self, points):
-        if not hasattr(self, "scribbleRenderer"):
-            self.scribbleRenderer = ScribbleRenderer(self)
-        self.scribbleRenderer.addPoints(points)
-
-    def endDrawing(self):
-        self.scribbleRenderer.end()
-        del self.scribbleRenderer
-
-class PointBasedScribble(Scribble):
+class PointBasedScribble(Image):
     ''' a point-based scribble sprite, which, when persisted, is reconstructed from the individual points '''
-    def __init__(self, d, game, startPoint=None):
+    def __init__(self, d, game, startPoint=None,persistentMembers=None):
         pos = None
         if "pos" in d:
             pos = self._deserializeValue("pos", d["pos"])
@@ -397,20 +273,37 @@ class PointBasedScribble(Scribble):
                 raise Exception('construction requires either startPoint or non-empty d["points"]"')
         else:
             if "points" in d: raise Exception('cannot provide both startPoint and d["points"]')
-        Scribble.__init__(self, d, game, persistentMembers=["points"], startPoint=startPoint)
+        persistentMembers=["points"]
+
+        if startPoint is not None:
+            if "lineWidth" not in d: raise Exception("construction with startPoint requires lineWidth")
+            margin = 2 * d["lineWidth"]
+            d["rect"] = pygame.Rect(startPoint[0] - margin/2, startPoint[1] - margin/2, margin, margin)
+            if "pos" in d: del d["pos"] # will be set from rect
+        if persistentMembers is None: persistentMembers = []
+        Image.__init__(self, d, game, isUserObject=True, persistentMembers=persistentMembers+["lineWidth", "colour"])
+
+
         self.persistentMembers.remove("image")
         self.persistentMembers.remove("rect")
         if not hasattr(self, "points"):
             self.points = []
         else:
-            Scribble.addPoints(self, self.points)
+            self.addPoints(self, self.points)
         if pos is not None:
             self.pos = pos
 
     def addPoints(self, points):
         self.points.extend(points)
-        Scribble.addPoints(self, points)
+        if not hasattr(self, "scribbleRenderer"):
+                self.scribbleRenderer = ScribbleRenderer(self)
+        self.scribbleRenderer.addPoints(points)
         #log.debug("relative points: %s", map(list, [numpy.array(p)-self.pos for p in self.points]))
+
+    def endDrawing(self):
+        self.scribbleRenderer.end()
+        del self.scribbleRenderer
+
 
 class Text(Image):
     def __init__(self, d, game):
@@ -440,5 +333,54 @@ class Text(Image):
             y += s.get_height()
 
         self.setSurface(surface)
+
+# class Scribble(Image):
+#     ''' an image-based scribble sprite '''
+#     def __init__(self, d, game, startPoint=None, persistentMembers=None):
+#         if startPoint is not None:
+#             if "lineWidth" not in d: raise Exception("construction with startPoint requires lineWidth")
+#             margin = 2 * d["lineWidth"]
+#             d["rect"] = pygame.Rect(startPoint[0] - margin/2, startPoint[1] - margin/2, margin, margin)
+#             if "pos" in d: del d["pos"] # will be set from rect
+#         if persistentMembers is None: persistentMembers = []
+#         Image.__init__(self, d, game, isUserObject=True, persistentMembers=persistentMembers+["lineWidth", "colour"])
+#
+#     def addPoints(self, points):
+#         if not hasattr(self, "scribbleRenderer"):
+#             self.scribbleRenderer = ScribbleRenderer(self)
+#         self.scribbleRenderer.addPoints(points)
+#
+#     def endDrawing(self):
+#         self.scribbleRenderer.end()
+#         del self.scribbleRenderer
+#
+# class PointBasedScribble(Scribble):
+#     ''' a point-based scribble sprite, which, when persisted, is reconstructed from the individual points '''
+#     def __init__(self, d, game, startPoint=None):
+#         pos = None
+#         if "pos" in d:
+#             pos = self._deserializeValue("pos", d["pos"])
+#         if startPoint is None:
+#             if "points" in d and len(d["points"]) > 0:
+#                 startPoint = d["points"][0]
+#             else:
+#                 raise Exception('construction requires either startPoint or non-empty d["points"]"')
+#         else:
+#             if "points" in d: raise Exception('cannot provide both startPoint and d["points"]')
+#         Scribble.__init__(self, d, game, persistentMembers=["points"], startPoint=startPoint)
+#         self.persistentMembers.remove("image")
+#         self.persistentMembers.remove("rect")
+#         if not hasattr(self, "points"):
+#             self.points = []
+#         else:
+#             Scribble.addPoints(self, self.points)
+#         if pos is not None:
+#             self.pos = pos
+#
+#     def addPoints(self, points):
+#         self.points.extend(points)
+#         Scribble.addPoints(self, points)
+#         #log.debug("relative points: %s", map(list, [numpy.array(p)-self.pos for p in self.points]))
+
 
 

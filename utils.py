@@ -1,8 +1,11 @@
 import pygame
 import logging
 import pickle
+import objects
 
 log = logging.getLogger(__name__)
+
+global pygame
 
 
 #计算线条框

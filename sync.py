@@ -10,6 +10,8 @@ import objects
 import numpy
 import time
 import logging
+from Tools import *
+import utils
 from net import *
 
 log = logging.getLogger(__name__)
@@ -56,7 +58,7 @@ class DispatchingWhiteboard(Whiteboard):
 	def _deserialize(self, s):
 		if not type(s) == bytes:
 			return s
-		return objects.deserialize(s, self.viewer)
+		return utils.deserialize(s, self.viewer)
 
 	def addObject(self, object):
 		super(DispatchingWhiteboard, self).addObject(self._deserialize(object))
@@ -182,8 +184,8 @@ if __name__=='__main__':
 		sys.exit(1)
 	whiteboard = DispatchingWhiteboard("WriteBoard server" if isServer else "WriteBoard client", isServer, canvasSize=size)
 	if isServer:
-		startServer(port, whiteboard, ipv6=ipv6)
+		startServer(port, whiteboard, app, ipv6=ipv6)
 	else:
-		startClient(server, port, whiteboard, ipv6=ipv6)
+		startClient(server, port, whiteboard,app, ipv6=ipv6)
 	whiteboard.startRendering()
 	app.MainLoop()

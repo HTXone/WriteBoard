@@ -372,7 +372,7 @@ class Whiteboard(wx.Frame):
             f = open(path, "rb")
             d = pickle.load(f)
             f.close()
-            self.viewer.setObjects([objects.deserialize(o, self.viewer) for o in d["objects"]])
+            self.viewer.setObjects([utils.deserialize(o, self.viewer) for o in d["objects"]])
 
     def onSave(self, event):
         log.debug("selected 'save'")
@@ -393,7 +393,7 @@ class Whiteboard(wx.Frame):
             dlg.Destroy()
 
             objs = self.getObjects()
-            rect = objects.boundingRect(objs)
+            rect = utils.boundingRect(objs)
             translate = numpy.array(rect.topleft) * -1
             surface = pygame.Surface(rect.size)
             surface.fill((255,255,255))
