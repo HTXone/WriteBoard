@@ -11,64 +11,84 @@ from Tools import *
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
-#网络模块
-class Dispatcher(asyncore.dispatcher_with_send):
+#网络模块 Socket抽象
+class SocketAbstract(asyncore.dispatcher_with_send):
     def __init__(self, ipv6=False, sock=None):
         asyncore.dispatcher_with_send.__init__(self, sock=sock)
-        self.ipv6 = ipv6
-        self.terminator = "\r\n\r\n$end$\r\n\r\n"
+
+        self.endTerminator = "\r\n\r\n$end$\r\n\r\n"
         self.recvBuffer = b""
         self.__debug = False
+        # self.ipv6 = ipv6
 
-    # 发送
+    def createSocket(self):
+        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)  #开启Socket
+
+    def endSocket(self):
+        self.end_socket(socket.AF_INET, socket.SOCK_STREAM)  # 关闭Socket
+
+    # 发送包
     def send(self, data):
         log.debug("sending packet; size %d" % len(data))
         if self.__debug:
             log.debug("hash: %s", hashlib.sha224(data).hexdigest())
-        # NOTE: explicitly *not* calling asyncore.dispatcher_with_send.send, because it's not thread-safe
-        # Instead, we just add to the output buffer, such that actual sending will take place only from one thread: the one running in asyncore.loop
-        self.out_buffer = self.out_buffer + data + self.terminator.encode("utf-8")
 
-    def createSocket(self):
-        self.create_socket(socket.AF_INET6 if self.ipv6 else socket.AF_INET, socket.SOCK_STREAM)
+        #通过缓冲区 实现单线程的消息传递
+        self.out_buffer = self.out_buffer + data + self.endTerminator.encode("utf-8")
 
-    # 接受
+    # 接受包
     def handle_read(self):
+
+        #接收byte串
         d = self.recv(8192)
-        if d == "": # connection closed from other end
+        if d == "":         # 非指定终结符，清空接收内容返回
             return
+
+        #接收缓冲
         self.recvBuffer += d
         log.debug("recvBuffer size: %d" % len(self.recvBuffer))
+
         while True:
             try:
                 print(self.recvBuffer)
-                tpos = self.recvBuffer.index(self.terminator.encode("utf-8"))
+                tpos = self.recvBuffer.index(self.endTerminator.encode("utf-8"))    #接收包分割
 
             except:
-                print("no terminator")
+                print("no terminator")      #非接收内容或错误 丢弃
                 break
-            packet = self.recvBuffer[:tpos]
+
+            packet = self.recvBuffer[:tpos] #解析包
+
             log.debug("received packet; size %d" % len(packet))
             if self.__debug: log.debug("hash: %s", hashlib.sha224(packet).hexdigest())
-            if len(packet) > 20000:
-                with open("bigdata.dat", "wb") as f:
-                    f.write(packet)
-                    f.close()
-            self.handle_packet(packet)
-            self.recvBuffer = self.recvBuffer[tpos+len(self.terminator):]
+            # if len(packet) > 20000:
+            #     with open("bigdata.dat", "wb") as f:
+            #         f.write(packet)
+            #         f.close()
+            #
+            self.getPacket(packet)
+            self.recvBuffer = self.recvBuffer[tpos+len(self.endTerminator):]    #下一个包处理
 
-    # 处理包
-    def handle_packet(self, packet):
+    # 处理包 (可删除）
+    def getPacket(self, packet):
         ''' handles a read packet '''
+        print("IN the PACKET")
         log.warning('unhandled packet; size %d' % len(packet))
 
-class SyncServer(Dispatcher):
-    def __init__(self, port, delegate, ipv6=False):
-        Dispatcher.__init__(self, ipv6=ipv6)
-        self.delegate = delegate
+
+
+class SyncServer(SocketAbstract):
+    def __init__(self, port, socket,ipv6 = False):
+        SocketAbstract.__init__(self)
+
+        #使用Socket
+        self.delegate = socket
         self.delegate.setDispatcher(self)
+
+        #开启socket
         # start listening for connections
         self.createSocket()
+
         host = ""
         self.bind((host, port))
         self.connections = []
@@ -104,10 +124,35 @@ class SyncServer(Dispatcher):
         if len(self.connections) == 0:
             self.delegate.handle_AllClientConnectionsLost()
 
+class Connection(SocketAbstract):
+    def __init__(self,server,connection):
+        SocketAbstract.__init__(self, sock=connection)
+        self.syncserver = server
+
+    # 接包
+    def handle_packet(self, packet):
+        log.debug("handling packet; size %d" % len(packet))
+        if packet == "":  # connection closed from other end
+            return
+        self.syncserver.delegate.handle_PacketReceived(packet, self)
+
+    # 断开连接
+    def remove(self):
+        log.info("client connection dropped")
+        self.syncserver.removeConnection(self)
+
+    # 关闭
+    def handle_close(self):
+        self.remove()
+        self.close()
+
+    def dispatch(self, d):
+        self.send(pickle.dumps(d))
+
 #改成工厂模式
-class DispatcherConnection(Dispatcher):
+class DispatcherConnection(Connection):
     def __init__(self, connection, server):
-        Dispatcher.__init__(self, sock=connection)
+        SocketAbstract.__init__(self, sock=connection)
         self.syncserver = server
 
     # 接包
@@ -131,9 +176,9 @@ class DispatcherConnection(Dispatcher):
         self.send(pickle.dumps(d))
 
 #客户
-class SyncClient(Dispatcher):
+class SyncClient(SocketAbstract):
     def __init__(self, server, port, delegate, ipv6=False):
-        Dispatcher.__init__(self, ipv6=ipv6)
+        SocketAbstract.__init__(self, ipv6=ipv6)
         self.delegate = delegate
         self.delegate.setDispatcher(self)
         self.serverAddress = (server, port)
