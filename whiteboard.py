@@ -48,21 +48,21 @@ class Whiteboard(wx.Frame):
         self.SetMenuBar(self.frame_menubar)
         # - file Menu
         self.file_menu = wx.Menu()
-        self.file_menu.Append(101, "&Open", "Open contents from file")
-        self.file_menu.Append(102, "&Save", "Save contents to file")
-        self.file_menu.Append(104, "&Export", "Export contents to image file")
+        self.file_menu.Append(101, "&打开", "打开wb文件")
+        self.file_menu.Append(102, "&保存", "保存wb文件")
+        self.file_menu.Append(104, "&导出", "导出图像")
         self.file_menu.AppendSeparator()
-        self.file_menu.Append(103, "&Exit", "Quit the application")
+        self.file_menu.Append(103, "&退出", "退出")
         self.Bind(wx.EVT_MENU, self.onOpen, id=101)
         self.Bind(wx.EVT_MENU, self.onSave, id=102)
         self.Bind(wx.EVT_MENU, self.onExport, id=104)
         self.Bind(wx.EVT_MENU, self.onExit, id=103)
         # - edit menu
         self.edit_menu = wx.Menu()
-        self.edit_menu.Append(201, "&Paste image", "Paste an image")
+        self.edit_menu.Append(201, "&导入", "导入图像")
         self.Bind(wx.EVT_MENU, self.onPasteImage, id=201)
 
-        menus = ((self.file_menu, "File"), (self.edit_menu, "Edit"))
+        menus = ((self.file_menu, "文件"), (self.edit_menu, "编辑"))
 
         for menu, name in menus:
             self.frame_menubar.Append(menu, name)
@@ -131,7 +131,7 @@ class Whiteboard(wx.Frame):
     def getFontSize(self):
         return self.fontTool.getFont().GetPointSize()
 
-    def onOpen(self):
+    def onOpen(self, event):
         log.debug("selected 'open'")
         dlg = wx.FileDialog(self, "Choose a file", ".", "", "*.wb", wx.FD_OPEN)
         if dlg.ShowModal() == wx.ID_OK:
@@ -143,7 +143,7 @@ class Whiteboard(wx.Frame):
             f.close()
             self.viewer.setObjects([utils.deserialize(o, self.viewer) for o in d["objects"]])
 
-    def onSave(self):
+    def onSave(self ,event):
         log.debug("selected 'save'")
         dlg = wx.FileDialog(self, "Choose a file", ".", "", "*.wb", wx.FD_SAVE)
         if dlg.ShowModal() == wx.ID_OK:
@@ -154,7 +154,7 @@ class Whiteboard(wx.Frame):
             pickle.dump({"objects": [o.serialize() for o in self.viewer.getObjects()]}, f)
             f.close()
 
-    def onExport(self):
+    def onExport(self, event):
         log.debug("selected 'export'")
         dlg = wx.FileDialog(self, "Choose a file", ".", "", "*.png", wx.FD_SAVE)
         if dlg.ShowModal() == wx.ID_OK:
@@ -170,7 +170,7 @@ class Whiteboard(wx.Frame):
                 surface.blit(o.image, numpy.array(o.absRect().topleft) + translate)
             pygame.image.save(surface, path)
 
-    def onExit(self):
+    def onExit(self, event):
         self.viewer.running = False
         sys.exit(0)
 
@@ -178,7 +178,7 @@ class Whiteboard(wx.Frame):
         pass
 
     def onPasteImage(self, event):
-        dlg = wx.FileDialog(self, "Open WD file", wildcard="WriteBoard files (*.wb)|*.wb",
+        dlg = wx.FileDialog(self, "Open WD file", wildcard="WriteBoard files (*.*)|*.*",
                             style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         filename = ""
         if dlg.ShowModal() == wx.ID_OK:

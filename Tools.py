@@ -59,7 +59,7 @@ class Tool(object):
 
 class SelectTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "select", wb)
+        Tool.__init__(self, "选择", wb)
         self.noRect = pygame.Rect(0, 0, 0, 0)
 
     def reset(self):
@@ -122,7 +122,7 @@ class SelectTool(Tool):
 
 class RectTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "rectangle", wb)
+        Tool.__init__(self, "矩形", wb)
 
     def startPos(self, x, y):
         print(x,y)
@@ -145,7 +145,7 @@ class RectTool(Tool):
 
 class LineTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "line", wb)
+        Tool.__init__(self, "线", wb)
 
     def startPos(self, x, y):
         # print(x,y)
@@ -165,7 +165,7 @@ class LineTool(Tool):
 
 class EllipseTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "ellipse", wb)
+        Tool.__init__(self, "椭圆", wb)
 
     def startPos(self, x, y):
         self.obj = objects.Ellipse({"rect": pygame.Rect(x, y, 10, 10), "colour": self.wb.getColour()}, self.viewer)
@@ -187,7 +187,7 @@ class EllipseTool(Tool):
 
 class CircleTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "circle", wb)
+        Tool.__init__(self, "圆", wb)
 
     def startPos(self, x, y):
         # print("按下")
@@ -216,7 +216,7 @@ class CircleTool(Tool):
 
 class EraserTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "eraser", wb)
+        Tool.__init__(self, "橡皮", wb)
         self.mouseCursor = "delete"
 
     def startPos(self, x, y):
@@ -236,7 +236,7 @@ class EraserTool(Tool):
 
 class PenTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "pen", wb)
+        Tool.__init__(self, "画笔", wb)
         self.lineWidth = 3
         self.syncWhileDrawing = True
         self.lastProcessTime = 0
@@ -289,7 +289,7 @@ class ColourTool(Tool):
 
 class TextTool(Tool):
     def __init__(self, wb):
-        Tool.__init__(self, "text", wb)
+        Tool.__init__(self, "文字", wb)
         self.mouseCursor = "text"
 
     def end(self, x, y):
@@ -364,18 +364,22 @@ class FontTool(Tool):
 
 class ShapeTool(Tool):
     def __init__(self,wb):
-        Tool.__init__(self,"shape",wb)
+        Tool.__init__(self,"重绘",wb)
         self.mouseCursor = "shape"
 
     def startPos(self, x, y):
-        self.objectReshape(x,y)
+        ids = self.objectReshape(x,y)
         if self.otype[0] == 'Rectangle':
+            self.wb.deleteObjects(*ids)
             return self.RectStart()
         if self.otype[0] == 'Circle':
+            self.wb.deleteObjects(*ids)
             return self.CircleStart()
         if self.otype[0] == 'Ellipse':
+            self.wb.deleteObjects(*ids)
             return self.EllipseStart()
         if self.otype[0] == 'Line':
+            self.wb.deleteObjects(*ids)
             return self.LineStart()
         return None
 
@@ -391,7 +395,7 @@ class ShapeTool(Tool):
             self.pos = matches[0].pos
             print(self.pos)
         ids = [self.oid]
-        self.wb.deleteObjects(*ids)
+        return ids
 
     def LineStart(self):
         x,y = self.pos
